@@ -57,26 +57,73 @@ $registro = $stmt->get_result()->fetch_assoc();
     <title>Editar Registro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            min-height: 100vh;
-            margin: 0;
-            padding: 40px 20px;
-            color: #2c3e50;
+        /* Variáveis de cores e estilos */
+        :root {
+            --primary-color: #0099ff;
+            --secondary-color: #0055ff;
+            --gradient: linear-gradient(130deg, #131313, #1c1c1c);
+            --gradient-primary: linear-gradient(45deg, #0099ff, #0055ff);
+            --gradient-dark: linear-gradient(130deg, #0a0a0a, #131313);
+            --text-color: #e0e0e0;
+            --light-text: #6c757d;
+            --background-color: #131313;
+            --card-bg: rgba(36, 36, 53, 0.8);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --success-color: #00ff88;
+            --error-color: #ff4444;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
+        /* Reset e estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: var(--gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Container principal */
         .container {
             max-width: 800px;
-            margin: 0 auto;
-            background: white;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
             border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            animation: fadeIn 0.5s ease;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+        }
+
+        .container:hover::before {
+            transform: scaleX(1);
         }
 
         .header {
@@ -89,23 +136,24 @@ $registro = $stmt->get_result()->fetch_assoc();
         .header h1 {
             margin: 0;
             font-size: 24px;
-            color: #2c3e50;
+            color: var(--text-color);
         }
 
         .header i {
-            color: #3498db;
+            color: var(--primary-color);
             font-size: 28px;
         }
 
         .mensagem {
-            background: #fff3f3;
-            color: #e74c3c;
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--error-color);
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
+            border-left: 4px solid var(--error-color);
         }
 
         .form-group {
@@ -115,38 +163,40 @@ $registro = $stmt->get_result()->fetch_assoc();
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #2c3e50;
+            color: var(--text-color);
             font-weight: 500;
         }
 
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e9ecef;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 10px;
             font-size: 14px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
+            color: var(--text-color);
+            transition: var(--transition);
         }
 
         .form-control:focus {
-            border-color: #3498db;
+            border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 153, 255, 0.1);
         }
 
         .foto-atual {
             margin: 20px 0;
             padding: 20px;
-            background: #f8f9fa;
+            background: var(--glass-bg);
             border-radius: 10px;
             text-align: center;
+            border: 1px solid var(--glass-border);
         }
 
         .foto-atual img {
             max-width: 200px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: var(--card-shadow);
         }
 
         .btn {
@@ -158,22 +208,23 @@ $registro = $stmt->get_result()->fetch_assoc();
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            background: var(--gradient-primary);
             color: white;
         }
 
         .btn-secondary {
-            background: #e9ecef;
-            color: #2c3e50;
+            background: var(--glass-bg);
+            color: var(--text-color);
+            border: 1px solid var(--glass-border);
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 153, 255, 0.3);
         }
 
         .btn-group {
@@ -182,14 +233,10 @@ $registro = $stmt->get_result()->fetch_assoc();
             margin-top: 30px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                margin: 1rem;
+                padding: 1rem;
             }
             
             .btn-group {
