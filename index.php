@@ -14,7 +14,6 @@ while ($t = $res->fetch_assoc()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <meta name="description"
         content="Sistema de controle de ponto moderno e seguro. Registre seus horários com fotos, acompanhe seu banco de horas e receba alertas automáticos!">
     <title>PontoInteligente - Controle de Ponto Moderno</title>
@@ -513,15 +512,71 @@ while ($t = $res->fetch_assoc()) {
             color: var(--error-color);
             text-shadow: 0 2px 4px rgba(255, 68, 68, 0.3);
         }
+
+        /* Scroll Indicator */
+        .scroll-indicator-container {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            z-index: 100;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 153, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .scroll-text {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .scroll-arrow {
+            color: var(--primary-color);
+            font-size: 24px;
+            animation: bounceArrow 2s infinite;
+        }
+
+        @keyframes bounceArrow {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Mostrar apenas em dispositivos móveis */
+        @media screen and (max-width: 768px) {
+            .scroll-indicator-container {
+                display: block;
+            }
+        }
+
+        /* Ocultar quando rolar a página */
+        .scroll-indicator-container.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Substituir o elemento scroll-indicator anterior */
+        .scroll-indicator {
+            display: none;
+        }
     </style>
-=======
-    <title>Sistema de Ponto para Clínicas</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="estilo-index.css">
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
 </head>
 
 <body>
@@ -577,7 +632,6 @@ while ($t = $res->fetch_assoc()) {
         </div>
     </section>
 
-<<<<<<< HEAD
     <section class="preco">
         <div class="container">
             <h2>🔹 Menos de R$1 por dia para ter controle total! 🔹</h2>
@@ -618,39 +672,6 @@ while ($t = $res->fetch_assoc()) {
             </div>
         </div>
     </section>
-=======
-<section class="boas-vindas">
-    <div class="container">
-        <h1><?= htmlspecialchars($textos['banner_titulo'] ?? 'Bem-vindo ao Sistema de Ponto da Clínica Mente Neural') ?></h1>
-        <p><?= htmlspecialchars($textos['banner_subtitulo'] ?? 'Gerencie seus registros de forma rápida, segura e eficiente.') ?></p>
-    </div>
-</section>
-
-<section class="atalhos">
-    <div class="card">
-        <i class="fas fa-clipboard-list fa-3x" style="color: #3498db; margin-bottom: 20px;"></i>
-        <h3>📋 Ver Registros</h3>
-        <p><?= htmlspecialchars($textos['como_funciona'] ?? 'Visualize todos os registros de ponto.') ?></p>
-        <a href="ver-registros.php"><i class="fas fa-arrow-right"></i> Acessar</a>
-    </div>
-    <div class="card">
-        <i class="fas fa-file-pdf fa-3x" style="color: #3498db; margin-bottom: 20px;"></i>
-        <h3>📄 Gerar Relatório</h3>
-        <p>Crie relatórios em PDF com fotos e horários.</p>
-        <a href="ver-registros.php#resultado-horas"><i class="fas fa-arrow-right"></i> Gerar</a>
-    </div>
-    <div class="card">
-        <i class="fab fa-whatsapp fa-3x" style="color: #2ecc71; margin-bottom: 20px;"></i>
-        <h3>💳 Renovar Mensalidade</h3>
-        <p>Pagamento direto pelo WhatsApp.</p>
-        <a href="https://wa.me/SEU_NUMERO_AQUI" target="_blank" class="whats-btn"><i class="fab fa-whatsapp"></i> Renovar Agora</a>
-    </div>
-</section>
-
-<footer class="rodape">
-    <p><?= htmlspecialchars($textos['rodape'] ?? '&copy; ' . date('Y') . ' Clínica Mente Neural. Todos os direitos reservados.') ?></p>
-</footer>
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
 
     <footer>
         <div class="container">
@@ -679,6 +700,37 @@ while ($t = $res->fetch_assoc()) {
             </div>
         </div>
     </footer>
+
+    <div class="scroll-indicator-container">
+        <div class="scroll-text">
+            <i class="fas fa-hand-point-down"></i>
+            Deslize para ver mais
+        </div>
+        <div class="scroll-arrow">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </div>
+
+    <script>
+        // Atualizar o controle do indicador de scroll
+        const scrollIndicator = document.querySelector('.scroll-indicator-container');
+        
+        window.addEventListener('scroll', () => {
+            // Ocultar o indicador após rolar 100px
+            if (window.scrollY > 100) {
+                scrollIndicator.classList.add('hidden');
+            } else {
+                scrollIndicator.classList.remove('hidden');
+            }
+        });
+
+        // Ocultar o indicador se a página não tiver scroll
+        window.addEventListener('load', () => {
+            if (document.documentElement.scrollHeight <= window.innerHeight) {
+                scrollIndicator.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>
