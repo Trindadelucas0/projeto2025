@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login Administrativo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Variáveis de cores e estilos */
@@ -73,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         body {
-<<<<<<< HEAD
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             color: var(--text-color);
@@ -98,69 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
-=======
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .box {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            width: 350px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        .box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #3498db, #2ecc71);
-        }
-        .box h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 28px;
-            font-weight: 600;
-        }
-        .box h2 i {
-            color: #3498db;
-            margin-right: 10px;
-        }
-        .input-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #3498db;
-        }
-        input {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border: 2px solid #e0e0e0;
-            border-radius: 50px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-        input:focus {
-            border-color: #3498db;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
         }
 
         .container::before {
@@ -180,6 +116,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             transform: scaleX(1);
         }
 
+        /* Badge administrativo */
+        .admin-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(0, 153, 255, 0.3);
+        }
+
         /* Título da página */
         h2 {
             color: var(--primary-color);
@@ -190,6 +140,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 i {
+            margin-right: 10px;
         }
 
         /* Mensagem de feedback */
@@ -204,18 +158,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: var(--error-color);
         }
 
+        .mensagem i {
+            margin-right: 8px;
+        }
+
         /* Formulário */
         form {
             margin-top: 1.5rem;
         }
 
-        .form-group {
+        .input-group {
             margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
         }
 
         input {
             width: 100%;
-            padding: 1rem;
+            padding: 1rem 1rem 1rem 45px;
             border-radius: 10px;
             border: 1px solid var(--glass-border);
             background: var(--glass-bg);
@@ -237,7 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         /* Botão */
         button {
             width: 100%;
-<<<<<<< HEAD
             padding: 1rem;
             background: var(--gradient-primary);
             color: white;
@@ -247,6 +213,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         button:hover {
@@ -264,74 +234,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             h2 {
                 font-size: 1.8rem;
             }
-=======
-            padding: 12px;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
-        }
-        .mensagem {
-            background: #fff3f3;
-            color: #e74c3c;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-            border: 1px solid #fadbd8;
-        }
-        .admin-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #2ecc71;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
         }
     </style>
 </head>
 <body>
-<<<<<<< HEAD
     <div class="container">
-        <h2>👤 Login Admin</h2>
-
-        <?php if ($mensagem): ?>
-            <div class="mensagem">
-                <?php echo $mensagem; ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="POST">
-            <div class="form-group">
-                <input type="email" name="email" placeholder="E-mail" required>
-            </div>
-            <div class="form-group">
-                <input type="password" name="senha" placeholder="Senha" required>
-            </div>
-            <button type="submit">Entrar</button>
-=======
-    <div class="box">
         <span class="admin-badge">Área Administrativa</span>
         <h2><i class="fas fa-shield-alt"></i> Login Admin</h2>
+
         <?php if ($mensagem): ?>
             <div class="mensagem">
-                <i class="fas fa-exclamation-circle"></i> <?= $mensagem ?>
+                <i class="fas fa-exclamation-circle"></i> <?php echo $mensagem; ?>
             </div>
         <?php endif; ?>
+
         <form method="POST">
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
@@ -344,7 +260,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">
                 <i class="fas fa-sign-in-alt"></i> Entrar
             </button>
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
         </form>
     </div>
 </body>

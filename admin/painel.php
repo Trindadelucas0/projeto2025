@@ -22,7 +22,10 @@ if (!file_exists($guia_path)) $guia_path = "guias/acesso.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo</title>
-<<<<<<< HEAD
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Variáveis de cores e estilos */
         :root {
@@ -74,6 +77,7 @@ if (!file_exists($guia_path)) $guia_path = "guias/acesso.php";
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            backdrop-filter: blur(10px);
         }
 
         .menu-lateral h2 {
@@ -87,6 +91,10 @@ if (!file_exists($guia_path)) $guia_path = "guias/acesso.php";
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
+        .menu-lateral h2 i {
+            margin-right: 10px;
+        }
+
         .menu-lateral ul {
             list-style: none;
         }
@@ -96,12 +104,19 @@ if (!file_exists($guia_path)) $guia_path = "guias/acesso.php";
         }
 
         .menu-lateral a {
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 0.8rem 1rem;
             color: var(--text-color);
             text-decoration: none;
             border-radius: 10px;
             transition: var(--transition);
+        }
+
+        .menu-lateral a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
 
         .menu-lateral a:hover {
@@ -119,6 +134,7 @@ if (!file_exists($guia_path)) $guia_path = "guias/acesso.php";
             text-align: center;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
+            justify-content: center;
         }
 
         .menu-lateral .voltar:hover {
@@ -156,54 +172,34 @@ if (!file_exists($guia_path)) $guia_path = "guias/acesso.php";
             }
         }
     </style>
-=======
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="painel.css">
-    <link rel="stylesheet" href="guias.css">
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
 </head>
 <body>
 
 <div class="painel-container">
     <aside class="menu-lateral">
-<<<<<<< HEAD
-        <h2>👤 Admin</h2>
-        <ul>
-            <li><a href="?guia=acesso" class="<?php echo $guia === 'acesso' ? 'active' : ''; ?>">🔐 Acesso</a></li>
-            <li><a href="?guia=textos" class="<?php echo $guia === 'textos' ? 'active' : ''; ?>">📝 Textos do Site</a></li>
-            <li><a href="?guia=comentarios" class="<?php echo $guia === 'comentarios' ? 'active' : ''; ?>">💬 Comentários</a></li>
-            <li><a href="?guia=satisfacao" class="<?php echo $guia === 'satisfacao' ? 'active' : ''; ?>">📊 Satisfação</a></li>
-            <li><a href="?guia=resumo-funcionarios" class="<?php echo $guia === 'resumo-funcionarios' ? 'active' : ''; ?>">📊 Resumo de Funcionários</a></li>
-            <li><a href="?guia=todos-registros" class="<?php echo $guia === 'todos-registros' ? 'active' : ''; ?>">📁 Todos os Registros</a></li>
-            <li><a href="?guia=relatorios-mensais" class="<?php echo $guia === 'relatorios-mensais' ? 'active' : ''; ?>">📁 Relatório Mensal</a></li>
-=======
         <h2><i class="fas fa-shield-alt"></i> Painel Admin</h2>
         <ul>
-            <li><a href="?guia=acesso" class="<?= $guia === 'acesso' ? 'active' : '' ?>">
+            <li><a href="?guia=acesso" class="<?php echo $guia === 'acesso' ? 'active' : ''; ?>">
                 <i class="fas fa-key"></i> Acesso
             </a></li>
-            <li><a href="?guia=textos" class="<?= $guia === 'textos' ? 'active' : '' ?>">
+            <li><a href="?guia=textos" class="<?php echo $guia === 'textos' ? 'active' : ''; ?>">
                 <i class="fas fa-edit"></i> Textos do Site
             </a></li>
-            <li><a href="?guia=comentarios" class="<?= $guia === 'comentarios' ? 'active' : '' ?>">
+            <li><a href="?guia=comentarios" class="<?php echo $guia === 'comentarios' ? 'active' : ''; ?>">
                 <i class="fas fa-comments"></i> Comentários
             </a></li>
-            <li><a href="?guia=satisfacao" class="<?= $guia === 'satisfacao' ? 'active' : '' ?>">
+            <li><a href="?guia=satisfacao" class="<?php echo $guia === 'satisfacao' ? 'active' : ''; ?>">
                 <i class="fas fa-chart-bar"></i> Satisfação
             </a></li>
-            <li><a href="?guia=resumo-funcionarios" class="<?= $guia === 'resumo-funcionarios' ? 'active' : '' ?>">
+            <li><a href="?guia=resumo-funcionarios" class="<?php echo $guia === 'resumo-funcionarios' ? 'active' : ''; ?>">
                 <i class="fas fa-users"></i> Resumo de Funcionários
             </a></li>
-            <li><a href="?guia=todos-registros" class="<?= $guia === 'todos-registros' ? 'active' : '' ?>">
+            <li><a href="?guia=todos-registros" class="<?php echo $guia === 'todos-registros' ? 'active' : ''; ?>">
                 <i class="fas fa-folder"></i> Todos os Registros
             </a></li>
-            <li><a href="?guia=relatorios-mensais" class="<?= $guia === 'relatorios-mensais' ? 'active' : '' ?>">
+            <li><a href="?guia=relatorios-mensais" class="<?php echo $guia === 'relatorios-mensais' ? 'active' : ''; ?>">
                 <i class="fas fa-file-alt"></i> Relatório Mensal
             </a></li>
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
         </ul>
         <a href="../index.php" class="voltar">
             <i class="fas fa-arrow-left"></i> Voltar ao Site
