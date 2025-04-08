@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <meta name="description" content="Cadastre-se no PontoInteligente - Sistema de controle de ponto moderno e seguro">
     <title>Cadastro - PontoInteligente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -88,132 +87,91 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: var(--text-color);
             background: var(--gradient);
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
         /* Container principal */
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Header */
-        header {
-            background: var(--gradient-dark);
-            color: var(--text-color);
+            width: 100%;
+            max-width: 500px;
             text-align: center;
-            padding: 6rem 2rem;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid var(--glass-border);
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(0, 153, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 85, 255, 0.1) 0%, transparent 50%);
-            z-index: 1;
+        .logo-container {
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease-out;
         }
 
-        header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            margin: 0 auto 1rem;
             position: relative;
-            z-index: 2;
+            animation: pulse 2s infinite;
+        }
+
+        .logo-container h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 1px;
-            font-weight: 700;
         }
 
-        header p {
-            font-size: 1.4rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            position: relative;
-            z-index: 2;
-            line-height: 1.8;
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .header-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .header-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 153, 255, 0.3);
-        }
-
-        .header-btn-secondary {
-            background: var(--glass-bg);
-            color: var(--text-color);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-
-        .header-btn i {
+        .subtitle {
+            color: var(--light-text);
             font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 0.5s both;
         }
 
-        .header-btn:hover {
-            transform: translateY(-3px);
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 153, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 153, 255, 0);
+            }
         }
 
-        .header-btn-primary:hover {
-            box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4);
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .header-btn-secondary:hover {
-            background: var(--gradient-primary);
-            color: white;
-            border-color: transparent;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         /* Formulário de Cadastro */
         .cadastro-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            padding: 2rem;
             background: var(--card-bg);
             border-radius: 20px;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(10px);
+            padding: 2.5rem;
             position: relative;
             overflow: hidden;
         }
@@ -242,8 +200,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .cadastro-header h2 {
             color: var(--primary-color);
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .cadastro-header p {
@@ -264,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         .form-group input {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 1rem;
             border-radius: 10px;
             border: 1px solid var(--glass-border);
             background: var(--glass-bg);
@@ -291,6 +253,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cursor: pointer;
             transition: var(--transition);
             margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .btn-cadastro:hover {
@@ -307,11 +273,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: var(--primary-color);
             text-decoration: none;
             transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .cadastro-footer a:hover {
             color: var(--secondary-color);
-            text-decoration: underline;
+            transform: translateY(-2px);
         }
 
         .alert {
@@ -319,6 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-radius: 10px;
             margin-bottom: 1.5rem;
             text-align: center;
+            font-weight: 500;
         }
 
         .alert-error {
@@ -335,59 +305,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         /* Responsividade */
         @media screen and (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
+            .cadastro-container {
+                padding: 2rem;
             }
 
+            .cadastro-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
             .cadastro-container {
-                margin: 1rem;
                 padding: 1.5rem;
             }
 
             .cadastro-header h2 {
                 font-size: 1.8rem;
             }
+
+            .form-group input {
+                padding: 0.8rem;
+            }
         }
     </style>
-=======
-    <title>Cadastro - Clínica Mente Neural</title>
-    <link rel="stylesheet" href="estilo-login-usuario.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <h1>📊 PontoInteligente</h1>
-                <p>Crie sua conta e comece a controlar seu ponto de forma inteligente</p>
-            </div>
-        </div>
-    </header>
-
     <div class="container">
+        <div class="logo-container">
+            <div class="logo"></div>
+            <h1>PontoInteligente</h1>
+            <p class="subtitle">Faça seu cadastro para acessar seu controle de ponto</p>
+        </div>
         <div class="cadastro-container">
             <div class="cadastro-header">
-                <h2>Criar Conta</h2>
+                <h2><i class="fas fa-user-plus"></i> Criar Conta</h2>
                 <p>Preencha os dados abaixo para se cadastrar</p>
             </div>
-<<<<<<< HEAD
-=======
-            <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
-            </div>
-            <div class="form-group">
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
-            </div>
-            <div class="form-group">
-                <label for="confirmar_senha">Confirmar Senha:</label>
-                <input type="password" id="confirmar_senha" name="confirmar_senha" required>
-            </div>
-            <button type="submit" id="botao-cadastro">Cadastrar</button>
-        </form>
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
 
             <?php if ($tipo_mensagem): ?>
                 <div class="alert alert-<?php echo $tipo_mensagem; ?>">
@@ -398,29 +351,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <form method="POST" action="">
                 <div class="form-group">
                     <label for="nome">Nome Completo</label>
-                    <input type="text" id="nome" name="nome" required>
+                    <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" placeholder="Digite seu email" required>
                 </div>
 
                 <div class="form-group">
                     <label for="senha">Senha</label>
-                    <input type="password" id="senha" name="senha" required>
+                    <input type="password" id="senha" name="senha" placeholder="Crie uma senha" required>
                 </div>
 
                 <div class="form-group">
                     <label for="confirmar_senha">Confirmar Senha</label>
-                    <input type="password" id="confirmar_senha" name="confirmar_senha" required>
+                    <input type="password" id="confirmar_senha" name="confirmar_senha" placeholder="Confirme sua senha" required>
                 </div>
 
-                <button type="submit" class="btn-cadastro">Cadastrar</button>
+                <button type="submit" class="btn-cadastro">
+                    <i class="fas fa-user-plus"></i> Criar Conta
+                </button>
             </form>
 
             <div class="cadastro-footer">
-                <p>Já tem uma conta? <a href="login.php">Faça login</a></p>
+                <p>Já tem uma conta? <a href="login.php"><i class="fas fa-sign-in-alt"></i> Fazer Login</a></p>
             </div>
         </div>
     </div>
