@@ -56,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
     <meta name="description" content="Faça login no PontoInteligente - Sistema de controle de ponto moderno e seguro">
     <title>Login - PontoInteligente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -156,58 +155,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             z-index: 2;
             max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .header-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .header-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem 2rem;
-            border-radius: 30px;
-            font-weight: 500;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header-btn-primary {
-            background: var(--gradient-primary);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 153, 255, 0.3);
-        }
-
-        .header-btn-secondary {
-            background: var(--glass-bg);
-            color: var(--text-color);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-
-        .header-btn i {
-            font-size: 1.2rem;
-        }
-
-        .header-btn:hover {
-            transform: translateY(-3px);
-        }
-
-        .header-btn-primary:hover {
-            box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4);
-        }
-
-        .header-btn-secondary:hover {
-            background: var(--gradient-primary);
-            color: white;
-            border-color: transparent;
         }
 
         /* Formulário de Login */
@@ -369,11 +316,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     </style>
-=======
-    <title>Login - Clínica Mente Neural</title>
-    <link rel="stylesheet" href="estilo-login-usuario.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
 </head>
 <body>
     <header>
@@ -386,23 +328,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </header>
 
     <div class="container">
-<<<<<<< HEAD
         <div class="login-container">
             <div class="login-header">
                 <h2>Bem-vindo de volta!</h2>
                 <p>Entre com suas credenciais para acessar sua conta</p>
-=======
-        <h2>Login</h2>
-
-        <?php if ($mensagem): ?>
-            <p style="color: red;"><?php echo $mensagem; ?></p>
-        <?php endif; ?>
-
-        <form id="login-form" method="POST" action="login.php">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
->>>>>>> 6a4371b505c2969eaa843912487b25d6dab79c77
             </div>
 
             <?php if ($tipo_mensagem === 'error'): ?>
