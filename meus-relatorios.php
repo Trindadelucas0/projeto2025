@@ -18,7 +18,12 @@ $resultado = $stmt->get_result();
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatórios Mensais</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         /* Variáveis de cores e estilos */
@@ -161,6 +166,69 @@ $resultado = $stmt->get_result();
             font-style: italic;
         }
 
+        /* Cards para visualização em dispositivos móveis */
+        .cards-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .card-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-label {
+            font-size: 0.8rem;
+            color: var(--light-text);
+            margin-bottom: 0.3rem;
+        }
+
+        .card-value {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
         /* Responsividade */
         @media screen and (max-width: 768px) {
             .container {
@@ -173,21 +241,24 @@ $resultado = $stmt->get_result();
             }
 
             table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
+                display: none;
             }
 
-            th, td {
-                padding: 0.8rem;
+            .cards-container {
+                display: block;
+            }
+
+            .card-content {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>📊 Relatórios Mensais</h2>
+    <h2><i class="fas fa-chart-bar"></i> Relatórios Mensais</h2>
 
+    <!-- Tabela para desktop -->
     <table>
         <thead>
             <tr>
@@ -208,7 +279,7 @@ $resultado = $stmt->get_result();
                     <td><?= htmlspecialchars($relatorio['horas_faltantes']) ?></td>
                     <td>
                         <button onclick="gerarPDF('<?= $relatorio['mes'] ?>', '<?= $relatorio['carga_diaria'] ?>', '<?= $relatorio['total_trabalhado'] ?>', '<?= $relatorio['horas_extras'] ?>', '<?= $relatorio['horas_faltantes'] ?>')">
-                            📥 Baixar PDF
+                            <i class="fas fa-download"></i> Baixar PDF
                         </button>
                     </td>
                 </tr>
@@ -218,6 +289,46 @@ $resultado = $stmt->get_result();
         <?php endif; ?>
         </tbody>
     </table>
+
+    <!-- Cards para dispositivos móveis -->
+    <div class="cards-container">
+        <?php 
+        // Resetar o ponteiro do resultado para usar novamente
+        if ($resultado->num_rows > 0) {
+            $resultado->data_seek(0);
+            while ($relatorio = $resultado->fetch_assoc()): 
+        ?>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><?= htmlspecialchars($relatorio['mes']) ?></div>
+                </div>
+                <div class="card-content">
+                    <div class="card-item">
+                        <div class="card-label">Total Trabalhado</div>
+                        <div class="card-value"><?= htmlspecialchars($relatorio['total_trabalhado']) ?></div>
+                    </div>
+                    <div class="card-item">
+                        <div class="card-label">Horas Extras</div>
+                        <div class="card-value"><?= htmlspecialchars($relatorio['horas_extras']) ?></div>
+                    </div>
+                    <div class="card-item">
+                        <div class="card-label">Horas Faltantes</div>
+                        <div class="card-value"><?= htmlspecialchars($relatorio['horas_faltantes']) ?></div>
+                    </div>
+                </div>
+                <div class="card-actions">
+                    <button onclick="gerarPDF('<?= $relatorio['mes'] ?>', '<?= $relatorio['carga_diaria'] ?>', '<?= $relatorio['total_trabalhado'] ?>', '<?= $relatorio['horas_extras'] ?>', '<?= $relatorio['horas_faltantes'] ?>')">
+                        <i class="fas fa-download"></i> Baixar PDF
+                    </button>
+                </div>
+            </div>
+        <?php 
+            endwhile;
+        } else {
+            echo '<div class="card"><div class="card-content">Nenhum relatório encontrado.</div></div>';
+        }
+        ?>
+    </div>
 </div>
 
 <script>
