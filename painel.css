@@ -1,0 +1,121 @@
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .dashboard-container {
+        width: 95%;
+        padding: 20px;
+        margin: 15px auto;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .dashboard-title h1 {
+        font-size: 24px;
+    }
+    
+    .dashboard-title p {
+        font-size: 15px;
+    }
+    
+    .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .stat-card {
+        padding: 20px;
+    }
+    
+    .stat-value {
+        font-size: 24px;
+    }
+    
+    .stat-label {
+        font-size: 14px;
+    }
+    
+    .dashboard-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .content-card {
+        padding: 20px;
+    }
+    
+    .content-header h2 {
+        font-size: 20px;
+    }
+    
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    th, td {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        width: 100%;
+        padding: 15px;
+        margin: 10px auto;
+    }
+    
+    .dashboard-title h1 {
+        font-size: 22px;
+    }
+    
+    .dashboard-title p {
+        font-size: 14px;
+    }
+    
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+    
+    .stat-value {
+        font-size: 22px;
+    }
+    
+    .stat-label {
+        font-size: 13px;
+    }
+    
+    .content-card {
+        padding: 15px;
+    }
+    
+    .content-header h2 {
+        font-size: 18px;
+    }
+    
+    table {
+        font-size: 13px;
+    }
+    
+    th, td {
+        padding: 8px;
+    }
+} 

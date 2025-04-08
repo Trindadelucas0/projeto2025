@@ -1,0 +1,403 @@
+/* ===== BASE STYLES ===== */
+:root {
+    --primary: #0099ff;
+    --primary-dark: #0055ff;
+    --secondary: #242435;
+    --dark: #1c1c1c;
+    --darker: #131313;
+    --light: #f5f5f5;
+    --success: #00ff88;
+    --success-dark: #00cc6a;
+    --text: #e0e0e0;
+    --text-muted: #aaaaaa;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, var(--darker), var(--dark));
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    line-height: 1.6;
+  }
+  
+  /* ===== LAYOUT ===== */
+  .payment-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+  
+  .payment-card {
+    background: var(--secondary);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .payment-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  }
+  
+  /* ===== TYPOGRAPHY ===== */
+  .payment-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .payment-title::before {
+    content: '💳';
+    font-size: 28px;
+  }
+  
+  .payment-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    font-size: 16px;
+  }
+  
+  /* ===== FORM STYLES ===== */
+  .payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .form-label {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 14px;
+  }
+  
+  .form-input {
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary);
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .form-input[readonly] {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+  
+  /* ===== PAYMENT METHODS ===== */
+  .payment-methods {
+    margin: 25px 0;
+  }
+  
+  .methods-title {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+  }
+  
+  .methods-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  
+  .method-option {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+  }
+  
+  .method-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .method-option.active {
+    border-color: var(--primary);
+    background: rgba(0, 153, 255, 0.1);
+  }
+  
+  .method-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .method-name {
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  /* ===== BUTTON STYLES ===== */
+  .btn-payment {
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .btn-payment:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 85, 255, 0.4);
+  }
+  
+  .btn-payment:active {
+    transform: translateY(0);
+  }
+  
+  /* ===== VALUE DISPLAY ===== */
+  .value-display {
+    background: rgba(0, 255, 136, 0.1);
+    border-left: 4px solid var(--success);
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .value-label {
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+  
+  .value-amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--success);
+  }
+  
+  /* ===== SECURITY BADGE ===== */
+  .security-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 30px;
+    justify-content: center;
+  }
+  
+  .security-icon {
+    color: var(--success);
+  }
+  
+  /* ===== RESPONSIVE ADJUSTMENTS ===== */
+  @media (max-width: 768px) {
+    .payment-container {
+        padding: 0 15px;
+        margin: 20px auto;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+    
+    .payment-card {
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    .payment-title {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    
+    .payment-subtitle {
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .form-input {
+        padding: 12px 15px;
+        font-size: 15px;
+        height: 45px;
+    }
+    
+    .methods-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .method-option {
+        padding: 15px;
+    }
+    
+    .method-icon {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    
+    .method-name {
+        font-size: 12px;
+    }
+    
+    .btn-payment {
+        padding: 15px;
+        font-size: 15px;
+        height: 45px;
+        margin-top: 15px;
+    }
+    
+    .value-display {
+        padding: 15px;
+        margin: 25px 0;
+    }
+    
+    .value-amount {
+        font-size: 22px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .payment-container {
+        padding: 0 10px;
+        margin: 15px auto;
+    }
+    
+    .payment-card {
+        padding: 20px;
+    }
+    
+    .payment-title {
+        font-size: 20px;
+    }
+    
+    .payment-subtitle {
+        font-size: 14px;
+    }
+    
+    .form-input {
+        padding: 10px 12px;
+        font-size: 14px;
+        height: 40px;
+    }
+    
+    .methods-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .method-option {
+        padding: 12px;
+    }
+    
+    .method-icon {
+        font-size: 20px;
+    }
+    
+    .method-name {
+        font-size: 11px;
+    }
+    
+    .btn-payment {
+        padding: 12px;
+        font-size: 14px;
+        height: 40px;
+    }
+    
+    .value-display {
+        padding: 12px;
+        margin: 20px 0;
+    }
+    
+    .value-amount {
+        font-size: 20px;
+    }
+    
+    .security-badge {
+        font-size: 12px;
+    }
+  }
+  
+  /* ===== ANIMATIONS ===== */
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  /* ===== LOADING STATE ===== */
+  .loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  
+  .loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: inherit;
+  }
+  
+  /* ===== UTILITY CLASSES ===== */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mt-1 { margin-top: 10px; }
+  .mt-2 { margin-top: 20px; }
+  .mt-3 { margin-top: 30px; }
+  .mb-1 { margin-bottom: 10px; }
+  .mb-2 { margin-bottom: 20px; }
+  .mb-3 { margin-bottom: 30px; }

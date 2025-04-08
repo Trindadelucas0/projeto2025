@@ -1,0 +1,189 @@
+/* Estilo geral */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(130deg, #131313, #1c1c1c);
+    color: #e0e0e0;
+    line-height: 1.8;
+    padding: 20px;
+    margin: 0;
+}
+
+/* Container */
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    background: #242435;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Título */
+h2 {
+    text-align: center;
+    color: #00ff88;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #ddd;
+}
+
+input, select {
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    background: #333344;
+    color: #fff;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s ease;
+    width: 100%; /* Ocupa toda a largura */
+}
+
+input:focus, select:focus {
+    box-shadow: 0 0 8px #00ff88;
+    outline: none;
+}
+
+/* Botões */
+button, #ver-registros-btn {
+    background: linear-gradient(90deg, #0099ff, #0055ff);
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+    margin-top: 15px;
+    width: 100%; /* Ocupa toda a largura */
+}
+
+button:hover, #ver-registros-btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #0055ff, #0099ff);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .register-container {
+        width: 95%;
+        padding: 25px;
+        margin: 15px auto;
+    }
+    
+    .register-header {
+        margin-bottom: 25px;
+    }
+    
+    .register-header h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .register-header p {
+        font-size: 15px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-control {
+        padding: 12px 15px;
+        font-size: 15px;
+        height: 45px;
+    }
+    
+    .btn-register {
+        padding: 12px;
+        font-size: 15px;
+        height: 45px;
+        margin-top: 20px;
+    }
+    
+    .register-footer {
+        margin-top: 25px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-container {
+        width: 100%;
+        padding: 20px;
+        margin: 10px auto;
+    }
+    
+    .register-header h1 {
+        font-size: 22px;
+    }
+    
+    .register-header p {
+        font-size: 14px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+        height: 40px;
+    }
+    
+    .btn-register {
+        padding: 10px;
+        font-size: 14px;
+        height: 40px;
+        margin-top: 15px;
+    }
+    
+    .register-footer {
+        margin-top: 20px;
+        font-size: 13px;
+    }
+}
+
+/* Responsividade para desktop */
+@media screen and (min-width: 769px) {
+    .container {
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    input, select {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    button, #ver-registros-btn {
+        font-size: 18px;
+        padding: 15px;
+        width: auto; /* Largura automática */
+    }
+}

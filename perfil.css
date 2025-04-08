@@ -1,0 +1,272 @@
+/* ===== ESTILOS GERAIS ===== */
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #131313, #1c1c1c);
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* ===== CONTAINER PRINCIPAL ===== */
+div[style*="max-width: 600px"] {
+    max-width: 600px !important;
+    margin: 40px auto !important;
+    padding: 20px;
+    background: #242435;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+div[style*="max-width: 600px"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #0099ff, #0055ff);
+}
+
+/* ===== TÍTULO ===== */
+h2 {
+    color: white !important;
+    font-size: 24px;
+    margin-bottom: 25px !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ===== MENSAGENS ===== */
+p[style*="color: green"] {
+    background: rgba(0, 255, 136, 0.1) !important;
+    color: #00ff88 !important;
+    padding: 15px !important;
+    border-radius: 8px;
+    border-left: 4px solid #00ff88;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px !important;
+}
+
+/* ===== INFORMAÇÕES DO PERFIL ===== */
+p > strong {
+    color: #aaaaaa;
+    min-width: 80px;
+    display: inline-block;
+}
+
+p {
+    margin-bottom: 15px !important;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+/* ===== FOTO DE PERFIL ===== */
+div > strong {
+    color: #aaaaaa !important;
+    margin-bottom: 10px !important;
+    display: block;
+}
+
+img[alt="Perfil"] {
+    width: 150px !important;
+    height: 150px;
+    border-radius: 50% !important;
+    object-fit: cover;
+    border: 4px solid #0099ff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 15px !important;
+    transition: all 0.3s ease;
+}
+
+img[alt="Perfil"]:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 153, 255, 0.4);
+}
+
+/* ===== FORMULÁRIO ===== */
+form[enctype="multipart/form-data"] {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px !important;
+    border-radius: 12px;
+    margin-top: 25px !important;
+}
+
+label[for="foto_perfil"] {
+    color: #e0e0e0 !important;
+    margin-bottom: 10px !important;
+    display: block;
+    font-weight: 500;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    color: #e0e0e0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    margin-top: 10px !important;
+    margin-bottom: 15px !important;
+}
+
+input[type="file"]:hover {
+    border-color: #0099ff;
+    background: rgba(0, 153, 255, 0.1);
+}
+
+input[type="file"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #0099ff;
+}
+
+/* ===== BOTÃO ===== */
+button[type="submit"] {
+    background: linear-gradient(90deg, #0099ff, #0055ff) !important;
+    color: white !important;
+    border: none !important;
+    padding: 14px 24px !important;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(0, 85, 255, 0.4) !important;
+}
+
+button[type="submit"]:active {
+    transform: translateY(0) !important;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 20px 15px;
+        margin: 15px auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .profile-card {
+        padding: 25px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .profile-info h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+    
+    .profile-info p {
+        font-size: 15px;
+    }
+    
+    .profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin: 25px 0;
+    }
+    
+    .stat-item {
+        padding: 15px;
+    }
+    
+    .stat-value {
+        font-size: 20px;
+    }
+    
+    .stat-label {
+        font-size: 12px;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .btn-profile {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        padding: 15px 10px;
+        margin: 10px auto;
+    }
+    
+    .profile-card {
+        padding: 20px;
+    }
+    
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .profile-info h1 {
+        font-size: 22px;
+    }
+    
+    .profile-info p {
+        font-size: 14px;
+    }
+    
+    .profile-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 20px 0;
+    }
+    
+    .stat-item {
+        padding: 12px;
+    }
+    
+    .stat-value {
+        font-size: 18px;
+    }
+    
+    .stat-label {
+        font-size: 11px;
+    }
+    
+    .btn-profile {
+        padding: 10px;
+        font-size: 13px;
+    }
+}

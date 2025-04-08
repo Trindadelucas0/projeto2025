@@ -1,0 +1,98 @@
+/* Herda o estilo do cadastro */
+@import url("estilo-cadastro.css");
+
+/* Apenas altera o título para cor azul neon */
+h2 {
+    color: #0099ff; /* Azul Neon */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .login-container {
+        width: 95%;
+        padding: 25px;
+        margin: 15px auto;
+    }
+    
+    .login-header {
+        margin-bottom: 25px;
+    }
+    
+    .login-header h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    .login-header p {
+        font-size: 15px;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-control {
+        padding: 12px 15px;
+        font-size: 15px;
+        height: 45px;
+    }
+    
+    .btn-login {
+        padding: 12px;
+        font-size: 15px;
+        height: 45px;
+        margin-top: 20px;
+    }
+    
+    .login-footer {
+        margin-top: 25px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        width: 100%;
+        padding: 20px;
+        margin: 10px auto;
+    }
+    
+    .login-header h1 {
+        font-size: 22px;
+    }
+    
+    .login-header p {
+        font-size: 14px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-control {
+        padding: 10px 12px;
+        font-size: 14px;
+        height: 40px;
+    }
+    
+    .btn-login {
+        padding: 10px;
+        font-size: 14px;
+        height: 40px;
+        margin-top: 15px;
+    }
+    
+    .login-footer {
+        margin-top: 20px;
+        font-size: 13px;
+    }
+}

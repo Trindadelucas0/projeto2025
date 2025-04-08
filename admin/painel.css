@@ -1,0 +1,234 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f2f5;
+    color: #2c3e50;
+}
+
+.painel-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.menu-lateral {
+    width: 280px;
+    background: linear-gradient(180deg, #2c3e50 0%, #3498db 100%);
+    color: white;
+    padding: 30px 20px;
+    position: fixed;
+    height: 100vh;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+}
+
+.menu-lateral h2 {
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.menu-lateral h2 i {
+    color: #2ecc71;
+}
+
+.menu-lateral ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-lateral li {
+    margin-bottom: 5px;
+}
+
+.menu-lateral a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.menu-lateral a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(5px);
+}
+
+.menu-lateral a.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 600;
+}
+
+.menu-lateral .voltar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    color: #2ecc71;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.menu-lateral .voltar:hover {
+    color: #27ae60;
+    transform: translateX(-5px);
+}
+
+.painel-conteudo {
+    flex-grow: 1;
+    padding: 40px;
+    margin-left: 280px;
+    background: white;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Estilos para o conteúdo do painel */
+.painel-conteudo h1 {
+    color: #2c3e50;
+    font-size: 28px;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.painel-conteudo .card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.painel-conteudo table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.painel-conteudo th {
+    background: #f8f9fa;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.painel-conteudo td {
+    padding: 12px;
+    border-bottom: 1px solid #e9ecef;
+    color: #666;
+}
+
+.painel-conteudo tr:hover {
+    background: #f8f9fa;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .menu-lateral {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    
+    .menu-lateral.active {
+        left: 0;
+    }
+    
+    .painel-conteudo {
+        margin-left: 0;
+        padding: 20px;
+        width: 100%;
+        min-height: 100vh;
+    }
+    
+    .painel-container {
+        flex-direction: column;
+    }
+
+    .menu-lateral h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .menu-lateral a {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .painel-conteudo h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .painel-conteudo .card {
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+
+    .painel-conteudo table {
+        font-size: 14px;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .painel-conteudo th,
+    .painel-conteudo td {
+        padding: 10px;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-lateral {
+        padding: 15px;
+    }
+
+    .menu-lateral h2 {
+        font-size: 18px;
+    }
+
+    .menu-lateral a {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .painel-conteudo {
+        padding: 15px;
+    }
+
+    .painel-conteudo h1 {
+        font-size: 20px;
+    }
+
+    .painel-conteudo .card {
+        padding: 15px;
+    }
+
+    .painel-conteudo table {
+        font-size: 12px;
+    }
+
+    .painel-conteudo th,
+    .painel-conteudo td {
+        padding: 8px;
+        min-width: 100px;
+    }
+}

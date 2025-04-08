@@ -1,0 +1,189 @@
+/* Estilo Base para todas as páginas */
+:root {
+    --cor-primaria: #00ff88;
+    --cor-secundaria: #00cc66;
+    --cor-fundo: #1e1e2f;
+    --cor-fundo-secundaria: #2c2c3e;
+    --cor-texto: #e0e0e0;
+    --cor-texto-secundaria: #bbb;
+    --sombra-padrao: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Reset e Estilos Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(120deg, var(--cor-fundo), #1c1c1c);
+    color: var(--cor-texto);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* Container Principal - Ajustado para melhor equilíbrio */
+.container-principal {
+    width: min(92%, 1100px);
+    margin: 0 auto;
+    padding: clamp(12px, 2.5vw, 25px);
+}
+
+/* Cards e Seções - Ajustados para melhor proporção */
+.card {
+    background: var(--cor-fundo-secundaria);
+    border-radius: clamp(6px, 1.5vw, 10px);
+    padding: clamp(12px, 2.5vw, 20px);
+    margin-bottom: clamp(12px, 2.5vw, 18px);
+    box-shadow: var(--sombra-padrao);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* Títulos Responsivos - Ajustados para melhor legibilidade */
+h1 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
+h2 { font-size: clamp(1.3rem, 3vw, 1.8rem); }
+h3 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
+h4 { font-size: clamp(1rem, 2vw, 1.3rem); }
+
+/* Formulários Otimizados - Ajustados para melhor usabilidade */
+.form-group {
+    margin-bottom: clamp(12px, 2.5vw, 18px);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: clamp(10px, 1.8vw, 12px);
+    height: clamp(40px, 5vw, 45px);
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background: #3a3a4a;
+    color: #fff;
+    font-size: clamp(13px, 1.8vw, 15px);
+    transition: all 0.3s ease;
+}
+
+/* Botões Responsivos - Ajustados para melhor toque */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(40px, 5vw, 45px);
+    padding: clamp(8px, 1.8vw, 10px) clamp(16px, 3vw, 20px);
+    border-radius: 22px;
+    font-size: clamp(13px, 1.8vw, 15px);
+    white-space: nowrap;
+    touch-action: manipulation;
+}
+
+/* Grid e Flexbox Adaptáveis - Ajustados para melhor distribuição */
+.grid {
+    display: grid;
+    gap: clamp(12px, 2.5vw, 18px);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.flex {
+    display: flex;
+    gap: clamp(12px, 2.5vw, 18px);
+    flex-wrap: wrap;
+}
+
+/* Tabelas Responsivas - Ajustadas para melhor visualização */
+.tabela-responsiva {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 calc(clamp(12px, 2.5vw, 18px) * -1);
+    padding: 0 clamp(12px, 2.5vw, 18px);
+}
+
+table {
+    min-width: 100%;
+    border-spacing: 0;
+}
+
+th, td {
+    padding: clamp(8px, 1.8vw, 12px);
+    font-size: clamp(12px, 1.8vw, 14px);
+    white-space: nowrap;
+}
+
+/* Mensagens de Feedback - Ajustadas para melhor visibilidade */
+.mensagem {
+    padding: clamp(10px, 1.8vw, 12px);
+    border-radius: 6px;
+    margin-bottom: clamp(12px, 2.5vw, 18px);
+    font-size: clamp(12px, 1.8vw, 14px);
+}
+
+/* Desktop - Acima de 768px */
+@media screen and (min-width: 769px) {
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+    }
+
+    input:hover, select:hover, textarea:hover {
+        background: #434356;
+    }
+}
+
+/* Mobile - Até 768px */
+@media screen and (max-width: 768px) {
+    .flex {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+/* Mobile Pequeno - Até 360px */
+@media screen and (max-width: 360px) {
+    .container-principal {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+}
+
+/* Utilitários Responsivos */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mb-20 { margin-bottom: clamp(15px, 3vw, 20px); }
+.mt-20 { margin-top: clamp(15px, 3vw, 20px); }
+.w-100 { width: 100%; }
+
+/* Mensagens de Feedback */
+.mensagem-sucesso {
+    background: rgba(0, 255, 136, 0.1);
+    color: var(--cor-primaria);
+}
+
+.mensagem-erro {
+    background: rgba(255, 68, 68, 0.1);
+    color: #ff4444;
+}
+
+.mensagem-info {
+    background: rgba(0, 153, 255, 0.1);
+    color: #0099ff;
+} 
