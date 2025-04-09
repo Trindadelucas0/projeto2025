@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['nome'] = $usuario['nome'];
                 $_SESSION['foto'] = $usuario['foto'];
+                $_SESSION['nivel_acesso'] = $usuario['nivel_acesso'];
 
                 if ($lembrar) {
                     $token = bin2hex(random_bytes(32));
@@ -34,7 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     setcookie('lembrar_token', $token, strtotime('+30 days'), '/', '', true, true);
                 }
 
-                header("Location: index.php");
+                // Atualizar último login
+                $sql = "UPDATE usuarios SET ultimo_login = NOW() WHERE id = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $usuario['id']);
+                $stmt->execute();
+
+                header("Location: dashboard.php");
                 exit();
             } else {
                 $tipo_mensagem = 'error';

@@ -180,7 +180,12 @@ if (!file_exists($guia_path)) $guia_path = "guias/acesso.php";
         <h2><i class="fas fa-shield-alt"></i> Painel Admin</h2>
         <ul>
             <li><a href="?guia=acesso" class="<?php echo $guia === 'acesso' ? 'active' : ''; ?>">
-                <i class="fas fa-key"></i> Acesso
+                <i class="fas fa-user-shield"></i>
+                <span>Acesso</span>
+            </a></li>
+            <li><a href="?guia=dashboard" class="<?php echo $guia === 'dashboard' ? 'active' : ''; ?>">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
             </a></li>
             <li><a href="?guia=textos" class="<?php echo $guia === 'textos' ? 'active' : ''; ?>">
                 <i class="fas fa-edit"></i> Textos do Site
