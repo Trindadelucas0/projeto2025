@@ -103,6 +103,7 @@ function formatarMin($min) {
             box-shadow: var(--card-shadow);
             border: 1px solid var(--glass-border);
         }
+        
 
         th, td {
             padding: 1rem;
@@ -255,6 +256,12 @@ function formatarMin($min) {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 153, 255, 0.4);
         }
+       
+        .oculto {
+            display: none;
+                }
+
+
 
         /* Responsividade */
         @media screen and (max-width: 768px) {
@@ -324,16 +331,18 @@ function formatarMin($min) {
     </table>
 
     <div class="form-group">
-        <label for="carga-horaria">Carga Horária Diária (HH:MM):</label>
-        <input type="time" id="carga-horaria" value="08:00" required>
-    </div>
+    <label for="carga-horaria">Carga Horária Diária (HH:MM):</label>
+    <input type="time" id="carga-horaria" value="08:00" required>
+</div>
 
-    <div id="resultado-horas">
-        <p>Horas Trabalhadas: <span id="horas-trabalhadas">00:00</span></p>
-        <p>Horas Extras: <span id="horas-extras">00:00</span></p>
-        <p>Horas Faltantes: <span id="horas-faltantes">00:00</span></p>
-        <button onclick="gerarPDF()">Gerar PDF</button>
-    </div>
+<button id="btn-calcular" class="pulse">🧠 Calcular Horas</button>
+
+<div id="resultado-horas" class="oculto">
+    <p>Horas Trabalhadas: <span id="horas-trabalhadas">00:00</span></p>
+    <p>Horas Extras: <span id="horas-extras">00:00</span></p>
+    <p>Horas Faltantes: <span id="horas-faltantes">00:00</span></p>
+    <button onclick="gerarPDF()">📄 Gerar PDF</button>
+</div>
 
     <!-- ✅ Botão para gerar relatório mensal manualmente -->
     <form action="gerar-relatorio-mensal.php" method="post">
@@ -345,14 +354,20 @@ function formatarMin($min) {
 
 <script src="/JS/ver-registros.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- SCRIPT FINAL UNIFICADO -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const tabela = document.getElementById("tabela-registros");
     const linhas = tabela.querySelectorAll("tbody tr");
-
     const cargaInput = document.getElementById("carga-horaria");
-    cargaInput.addEventListener("change", calcularHoras);
-    calcularHoras(); // executa ao carregar
+    const btnCalcular = document.getElementById("btn-calcular");
+    const resultadoHoras = document.getElementById("resultado-horas");
+
+    btnCalcular.addEventListener("click", () => {
+        calcularHoras();
+        resultadoHoras.style.display = "block"; // Exibir o resultado
+    });
 
     function calcularHoras() {
         const carga = cargaInput.value;
@@ -369,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (colunas.length >= 3) {
                 const data = colunas[0].textContent.trim();
                 const tipo = colunas[1].textContent.trim().toLowerCase();
-                const hora = colunas[2].textContent.trim().slice(0, 5); // HH:MM
+                const hora = colunas[2].textContent.trim().slice(0, 5);
 
                 if (!registrosPorData[data]) registrosPorData[data] = {};
                 registrosPorData[data][tipo] = hora;
@@ -407,9 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function calcularDiferenca(h1, h2) {
         const [h1h, h1m] = h1.split(":").map(Number);
         const [h2h, h2m] = h2.split(":").map(Number);
-        const t1 = h1h * 60 + h1m;
-        const t2 = h2h * 60 + h2m;
-        return t2 - t1;
+        return (h2h * 60 + h2m) - (h1h * 60 + h1m);
     }
 
     function formatarTempo(minutos) {
@@ -417,136 +430,111 @@ document.addEventListener("DOMContentLoaded", () => {
         const m = String(minutos % 60).padStart(2, '0');
         return `${h}:${m}`;
     }
-});
-</script>
 
+    // PDF
+    window.jsPDF = window.jspdf.jsPDF;
 
-<script>
-window.jsPDF = window.jspdf.jsPDF;
+    window.gerarPDF = async function() {
+        const pdf = new jsPDF();
+        const hoje = new Date().toLocaleDateString('pt-BR');
+        const porData = {};
+        let primeira = true;
 
-async function gerarPDF() {
-    const pdf = new jsPDF();
-    const hoje = new Date().toLocaleDateString('pt-BR');
-    const linhas = document.querySelectorAll("#tabela-registros tr");
+        for (let i = 0; i < linhas.length; i++) {
+            const colunas = linhas[i].querySelectorAll("td");
+            if (colunas.length > 0) {
+                const data = colunas[0].innerText.trim();
+                const tipo = colunas[1].innerText.trim().toLowerCase();
+                const hora = colunas[2].innerText.trim().slice(0, 5);
+                const img = colunas[3].querySelector("img");
+                const imgSrc = img ? img.src : null;
 
-    const porData = {};
-    let primeira = true;
+                if (!porData[data]) porData[data] = [];
+                porData[data].push({ tipo, hora, imgSrc });
 
-    for (let i = 0; i < linhas.length; i++) {
-        const colunas = linhas[i].querySelectorAll("td");
-        if (colunas.length > 0) {
-            const data = colunas[0].innerText.trim();
-            const tipo = colunas[1].innerText.trim().toLowerCase();
-            const hora = colunas[2].innerText.trim().slice(0, 5);
-            const img = colunas[3].querySelector("img");
-            const imgSrc = img ? img.src : null;
+                if (!primeira) pdf.addPage();
+                primeira = false;
 
-            // Agrupar por data
-            if (!porData[data]) porData[data] = [];
-            porData[data].push({ tipo, hora, imgSrc });
+                pdf.setFontSize(16);
+                pdf.text("🧠 Mente Neural - Controle de Ponto", 14, 20);
 
-            // Criar página individual para cada registro
-            if (!primeira) pdf.addPage();
-            primeira = false;
+                pdf.setFontSize(12);
+                pdf.text(`Data do Registro: ${data}`, 14, 32);
+                pdf.text(`Tipo de Ponto: ${capitalize(tipo)}`, 14, 40);
+                pdf.text(`Horário: ${hora}`, 14, 48);
+                pdf.text(`Relatório Gerado em: ${hoje}`, 14, 56);
 
-            pdf.setFontSize(16);
-            pdf.text("🧠 Mente Neural - Controle de Ponto", 14, 20);
-
-            pdf.setFontSize(12);
-            pdf.text(`Data do Registro: ${data}`, 14, 32);
-            pdf.text(`Tipo de Ponto: ${capitalize(tipo)}`, 14, 40);
-            pdf.text(`Horário: ${hora}`, 14, 48);
-            pdf.text(`Relatório Gerado em: ${hoje}`, 14, 56);
-
-            if (imgSrc) {
-                const imgData = await carregarImagem(imgSrc);
-                if (imgData) {
-                    pdf.addImage(imgData, "PNG", 14, 70, 80, 80);
+                if (imgSrc) {
+                    const imgData = await carregarImagem(imgSrc);
+                    if (imgData) {
+                        pdf.addImage(imgData, "PNG", 14, 70, 80, 80);
+                    }
                 }
             }
         }
+
+        let totalMin = 0;
+        for (const data in porData) {
+            const registros = porData[data];
+            const tipos = {};
+            registros.forEach(ponto => {
+                tipos[ponto.tipo] = ponto.hora;
+            });
+
+            let minutosDia = 0;
+            if (tipos["entrada"] && tipos["almoco"]) {
+                minutosDia += calcularDiferenca(tipos["entrada"], tipos["almoco"]);
+            }
+            if (tipos["retorno"] && tipos["saida"]) {
+                minutosDia += calcularDiferenca(tipos["retorno"], tipos["saida"]);
+            }
+            if (tipos["intervalo_inicio"] && tipos["intervalo_fim"]) {
+                minutosDia -= calcularDiferenca(tipos["intervalo_inicio"], tipos["intervalo_fim"]);
+            }
+
+            totalMin += minutosDia;
+        }
+
+        pdf.addPage();
+        pdf.setFontSize(16);
+        pdf.text("📊 Total de Horas no Período", 14, 20);
+
+        const [ch, cm] = cargaInput.value.split(":").map(Number);
+        const cargaMensal = (ch * 60 + cm) * 30;
+
+        const trabalhadas = formatarTempo(totalMin);
+        const extras = totalMin > cargaMensal ? formatarTempo(totalMin - cargaMensal) : "00:00";
+        const faltantes = totalMin < cargaMensal ? formatarTempo(cargaMensal - totalMin) : "00:00";
+
+        pdf.setFontSize(12);
+        pdf.text(`Horas Trabalhadas: ${trabalhadas}`, 14, 36);
+        pdf.text(`Horas Extras: ${extras}`, 14, 44);
+        pdf.text(`Horas Faltantes: ${faltantes}`, 14, 52);
+
+        pdf.save("relatorio-ponto-detalhado.pdf");
     }
 
-    // Calcular total de minutos
-    let totalMin = 0;
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
 
-    for (const data in porData) {
-        const registros = porData[data];
-        const tipos = {};
-        registros.forEach(ponto => {
-            tipos[ponto.tipo] = ponto.hora;
+    async function carregarImagem(url) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL("image/png"));
+            };
+            img.onerror = () => resolve(null);
+            img.src = url;
         });
-
-        let minutosDia = 0;
-        if (tipos["entrada"] && tipos["almoco"]) {
-            minutosDia += calcularDiferenca(tipos["entrada"], tipos["almoco"]);
-        }
-        if (tipos["retorno"] && tipos["saida"]) {
-            minutosDia += calcularDiferenca(tipos["retorno"], tipos["saida"]);
-        }
-        if (tipos["intervalo_inicio"] && tipos["intervalo_fim"]) {
-            minutosDia -= calcularDiferenca(tipos["intervalo_inicio"], tipos["intervalo_fim"]);
-        }
-
-        totalMin += minutosDia;
     }
-
-    // Adicionar página final com total
-    pdf.addPage();
-    pdf.setFontSize(16);
-    pdf.text("📊 Total de Horas no Período", 14, 20);
-
-    const carga = document.getElementById("carga-horaria").value;
-    const [ch, cm] = carga.split(":").map(Number);
-    const cargaMensal = (ch * 60 + cm) * 30;
-
-    const trabalhadas = formatarTempo(totalMin);
-    const extras = totalMin > cargaMensal ? formatarTempo(totalMin - cargaMensal) : "00:00";
-    const faltantes = totalMin < cargaMensal ? formatarTempo(cargaMensal - totalMin) : "00:00";
-
-    pdf.setFontSize(12);
-    pdf.text(`Horas Trabalhadas: ${trabalhadas}`, 14, 36);
-    pdf.text(`Horas Extras: ${extras}`, 14, 44);
-    pdf.text(`Horas Faltantes: ${faltantes}`, 14, 52);
-
-    pdf.save("relatorio-ponto-detalhado.pdf");
-}
-
-function calcularDiferenca(h1, h2) {
-    const [h1h, h1m] = h1.split(":").map(Number);
-    const [h2h, h2m] = h2.split(":").map(Number);
-    return (h2h * 60 + h2m) - (h1h * 60 + h1m);
-}
-
-function formatarTempo(minutos) {
-    const h = String(Math.floor(minutos / 60)).padStart(2, '0');
-    const m = String(minutos % 60).padStart(2, '0');
-    return `${h}:${m}`;
-}
-
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-async function carregarImagem(url) {
-    return new Promise((resolve) => {
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.onload = () => {
-            const canvas = document.createElement("canvas");
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0);
-            resolve(canvas.toDataURL("image/png"));
-        };
-        img.onerror = () => resolve(null);
-        img.src = url;
-    });
-}
+});
 </script>
-
-
-
 </body>
 </html>

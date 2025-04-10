@@ -1,6 +1,6 @@
 <?php include 'header.php'; ?>
 <?php include 'proteger.php'; 
-include 'verificar-ativo.php';?>
+include 'verificar-ativo.php'; ?>
 
 <div class="container">
     <div class="payment-card">
@@ -14,6 +14,7 @@ include 'verificar-ativo.php';?>
         
         <form method="POST" action="mensalidade.php" class="payment-form">
             <input type="hidden" name="valor" value="19.90">
+            <input type="hidden" name="metodo" id="metodoSelecionado" value="Pix">
             
             <div class="payment-methods">
                 <h4 class="methods-title">Método de Pagamento</h4>
@@ -36,6 +37,8 @@ include 'verificar-ativo.php';?>
             <button type="submit" class="btn-payment pulse">
                 <span>Pagar agora</span>
             </button>
+
+            <div id="resultadoPagamento" style="margin-top: 2rem; text-align: center;"></div>
         </form>
         
         <div class="security-badge">
@@ -46,7 +49,6 @@ include 'verificar-ativo.php';?>
 </div>
 
 <style>
-    /* Variáveis de cores e estilos */
     :root {
         --primary-color: #0099ff;
         --secondary-color: #0055ff;
@@ -65,14 +67,12 @@ include 'verificar-ativo.php';?>
         --glass-border: rgba(255, 255, 255, 0.1);
     }
 
-    /* Container principal */
     .container {
         max-width: 800px;
         margin: 2rem auto;
         padding: 2rem;
     }
 
-    /* Card de pagamento */
     .payment-card {
         background: var(--card-bg);
         border-radius: 20px;
@@ -101,7 +101,6 @@ include 'verificar-ativo.php';?>
         transform: scaleX(1);
     }
 
-    /* Título e subtítulo */
     .payment-title {
         color: var(--primary-color);
         font-size: 2.2rem;
@@ -120,7 +119,6 @@ include 'verificar-ativo.php';?>
         font-size: 1.1rem;
     }
 
-    /* Exibição do valor */
     .value-display {
         background: rgba(0, 153, 255, 0.1);
         border: 1px solid var(--primary-color);
@@ -144,13 +142,11 @@ include 'verificar-ativo.php';?>
         font-weight: 700;
     }
 
-    /* Formulário de pagamento */
     .payment-form {
         max-width: 500px;
         margin: 0 auto;
     }
 
-    /* Métodos de pagamento */
     .payment-methods {
         margin-bottom: 2rem;
     }
@@ -199,7 +195,6 @@ include 'verificar-ativo.php';?>
         font-weight: 500;
     }
 
-    /* Botão de pagamento */
     .btn-payment {
         width: 100%;
         padding: 1.2rem;
@@ -226,18 +221,11 @@ include 'verificar-ativo.php';?>
     }
 
     @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.7);
-        }
-        70% {
-            box-shadow: 0 0 0 10px rgba(0, 153, 255, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(0, 153, 255, 0);
-        }
+        0% { box-shadow: 0 0 0 0 rgba(0, 153, 255, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(0, 153, 255, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 153, 255, 0); }
     }
 
-    /* Badge de segurança */
     .security-badge {
         display: flex;
         align-items: center;
@@ -252,7 +240,6 @@ include 'verificar-ativo.php';?>
         font-size: 1.2rem;
     }
 
-    /* Responsividade */
     @media screen and (max-width: 768px) {
         .container {
             margin: 1rem;
@@ -278,18 +265,37 @@ include 'verificar-ativo.php';?>
 </style>
 
 <script>
-    // Adicionar interatividade aos métodos de pagamento
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const methodOptions = document.querySelectorAll('.method-option');
-        
+        const metodoSelecionadoInput = document.getElementById('metodoSelecionado');
+        const resultadoPagamento = document.getElementById('resultadoPagamento');
+        const botaoPagar = document.querySelector('.btn-payment');
+
         methodOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                // Remover classe active de todos os métodos
+            option.addEventListener('click', function () {
                 methodOptions.forEach(opt => opt.classList.remove('active'));
-                
-                // Adicionar classe active ao método clicado
                 this.classList.add('active');
+                metodoSelecionadoInput.value = this.querySelector('.method-name').innerText;
+                resultadoPagamento.innerHTML = ''; // limpa resultado ao trocar o método
             });
+        });
+
+        botaoPagar.addEventListener('click', function (e) {
+            e.preventDefault();
+            const metodo = metodoSelecionadoInput.value;
+
+            if (metodo === 'Pix') {
+                resultadoPagamento.innerHTML = `
+                    <h3 style="color: var(--success-color);">Escaneie o QR Code abaixo</h3>
+                    <img src="img/qrcode_exemplo.png" alt="QR Code Pix" style="max-width: 300px; margin-top: 1rem;">
+                `;
+            } else {
+                resultadoPagamento.innerHTML = `
+                    <p style="color: var(--error-color); font-size: 1.1rem; margin-top: 1rem;">
+                        O método <strong>${metodo}</strong> ainda não está disponível.
+                    </p>
+                `;
+            }
         });
     });
 </script>
