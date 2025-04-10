@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 01/04/2025 às 03:28
+-- Tempo de geração: 10/04/2025 às 20:32
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -35,14 +35,21 @@ CREATE TABLE `comentarios` (
   `data_envio` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `comentarios`
+-- Estrutura para tabela `dashboard_items`
 --
 
-INSERT INTO `comentarios` (`id`, `usuario_id`, `comentario`, `nota`, `data_envio`) VALUES
-(1, 2, 'tudo muito bom', 5, '2025-03-30 12:30:34'),
-(2, 2, 'muito ruim', 1, '2025-03-30 12:30:48'),
-(3, 2, 'muito bom', 5, '2025-03-30 12:31:14');
+CREATE TABLE `dashboard_items` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(100) DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
+  `icone` varchar(50) DEFAULT NULL,
+  `cor` varchar(20) DEFAULT NULL,
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -65,10 +72,18 @@ CREATE TABLE `registro_ponto` (
 --
 
 INSERT INTO `registro_ponto` (`id`, `nome`, `data`, `tipo_ponto`, `hora`, `foto`, `usuario_id`) VALUES
-(27, '', '2025-04-01', 'entrada', '08:00:00', '67eb36c650eef-Captura de tela 2025-01-03 114822.png', 1),
-(28, '', '2025-04-01', 'almoco', '12:00:00', '67eb36d5ecdd8-Captura de tela 2025-01-03 121953.png', 1),
-(29, '', '2025-04-01', 'retorno', '14:00:00', '67eb36e2be6e5-Captura de tela 2025-01-08 193154.png', 1),
-(30, '', '2025-04-01', 'saida', '18:00:00', '67eb36fc6e79c-Captura de tela 2025-01-08 205704.png', 1);
+(59, '', '2025-04-02', 'entrada', '08:00:00', NULL, 4),
+(60, '', '2025-04-02', 'almoco', '12:00:00', NULL, 4),
+(61, '', '2025-04-02', 'retorno', '14:00:00', NULL, 4),
+(62, '', '2025-04-02', 'saida', '18:00:00', NULL, 4),
+(63, '', '2025-04-03', 'entrada', '08:00:00', NULL, 4),
+(64, '', '2025-04-03', 'almoco', '12:00:00', NULL, 4),
+(65, '', '2025-04-03', 'retorno', '14:00:00', NULL, 4),
+(66, '', '2025-04-03', 'saida', '18:00:00', NULL, 4),
+(67, '', '2025-04-04', 'entrada', '08:00:00', '67ed1e9e09158-WP5.png', 4),
+(68, '', '2025-04-04', 'almoco', '12:00:00', '67ed1ea9dce3f-WP5.png', 4),
+(69, '', '2025-04-04', 'retorno', '14:00:00', '67ed1eb8502e0-WP5.png', 4),
+(70, '', '2025-04-04', 'saida', '18:00:00', '67ed1ec45f1f7-WP5.png', 4);
 
 -- --------------------------------------------------------
 
@@ -112,6 +127,27 @@ INSERT INTO `textos_site` (`id`, `conteudo`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `tokens`
+--
+
+CREATE TABLE `tokens` (
+  `id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `criado_em` datetime DEFAULT current_timestamp(),
+  `expiracao` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tokens`
+--
+
+INSERT INTO `tokens` (`id`, `usuario_id`, `token`, `criado_em`, `expiracao`) VALUES
+(1, 1, 'fdee318727562a43dcffb86e029f47c37bdd0033f9bd519c8db71248286e04fa', '2025-04-10 15:14:21', '2025-05-10 20:14:21');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `usuarios`
 --
 
@@ -122,17 +158,22 @@ CREATE TABLE `usuarios` (
   `nome` varchar(255) NOT NULL,
   `foto` varchar(255) DEFAULT NULL,
   `ativo` tinyint(1) DEFAULT 1,
-  `tipo` enum('admin','usuario') DEFAULT 'usuario'
+  `tipo` enum('admin','admin2','usuario') NOT NULL DEFAULT 'usuario',
+  `nivel_acesso` varchar(20) DEFAULT 'usuario',
+  `ultimo_login` datetime DEFAULT NULL,
+  `carga_mensal` int(11) DEFAULT 240,
+  `carga_mensal_minutos` int(11) DEFAULT 2400
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Despejando dados para a tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `email`, `senha`, `nome`, `foto`, `ativo`, `tipo`) VALUES
-(1, 'kayrtonsmnbvc123@gmail.com', '$2y$10$G53nuj9eG8gnvDTGytsc8utmgPzdXLkCkQ2fsd7.ysiJcoTAJ3bCC', 'kayron', 'uploads/perfil/67e9594c5b711-Captura de tela 2025-02-02 221019.png', 1, 'admin'),
-(2, 'lucas@gmail.com', '$2y$10$YHsKzCGCXIWhnMpC./dAleZAbIXRody8Pd.hCI8aM7Juafhj5Or3O', 'marcos', 'uploads/perfil/67e969d8d607c-Captura de tela 2025-03-08 182039.png', 1, 'usuario'),
-(3, 'admin@exemplo.com', '$2y$10$ufXParicV.iX23.gUkzdH.elp.3oVg3ssaOhVqEeq6Pc9Q26bZvRa', 'anne', 'uploads/perfil/67eb287e35c85-Captura de tela 2025-02-18 202609.png', 1, 'usuario');
+INSERT INTO `usuarios` (`id`, `email`, `senha`, `nome`, `foto`, `ativo`, `tipo`, `nivel_acesso`, `ultimo_login`, `carga_mensal`, `carga_mensal_minutos`) VALUES
+(1, 'kayrtonsmnbvc123@gmail.com', '$2y$10$G53nuj9eG8gnvDTGytsc8utmgPzdXLkCkQ2fsd7.ysiJcoTAJ3bCC', 'kayron', 'uploads/perfil/67f80da7d0fbf-WP5.png', 1, 'admin', 'usuario', '2025-04-10 15:14:32', 240, 5760),
+(2, 'lucas@gmail.com', '$2y$10$YHsKzCGCXIWhnMpC./dAleZAbIXRody8Pd.hCI8aM7Juafhj5Or3O', 'marcos', 'uploads/perfil/67e969d8d607c-Captura de tela 2025-03-08 182039.png', 1, 'usuario', 'usuario', NULL, 240, 2400),
+(3, 'admin@exemplo.com', '$2y$10$ufXParicV.iX23.gUkzdH.elp.3oVg3ssaOhVqEeq6Pc9Q26bZvRa', 'anne', 'uploads/perfil/67eb287e35c85-Captura de tela 2025-02-18 202609.png', 1, 'usuario', 'usuario', NULL, 240, 2400),
+(4, 'homeofice@kayrton.com', '$2y$10$.tu7728lv4wFHpnBCQ0fnuQgCPMOxt7IY639o4qVNTqZ84ba8ltVu', 'matheus', NULL, 1, 'usuario', 'usuario', NULL, 240, 2400);
 
 --
 -- Índices para tabelas despejadas
@@ -142,6 +183,12 @@ INSERT INTO `usuarios` (`id`, `email`, `senha`, `nome`, `foto`, `ativo`, `tipo`)
 -- Índices de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `dashboard_items`
+--
+ALTER TABLE `dashboard_items`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -164,6 +211,13 @@ ALTER TABLE `textos_site`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `tokens`
+--
+ALTER TABLE `tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `usuario_id` (`usuario_id`);
+
+--
 -- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -181,10 +235,16 @@ ALTER TABLE `comentarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de tabela `dashboard_items`
+--
+ALTER TABLE `dashboard_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `registro_ponto`
 --
 ALTER TABLE `registro_ponto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT de tabela `relatorio_mensal`
@@ -193,10 +253,16 @@ ALTER TABLE `relatorio_mensal`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `tokens`
+--
+ALTER TABLE `tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas
@@ -207,6 +273,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `relatorio_mensal`
   ADD CONSTRAINT `relatorio_mensal_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
+
+--
+-- Restrições para tabelas `tokens`
+--
+ALTER TABLE `tokens`
+  ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
