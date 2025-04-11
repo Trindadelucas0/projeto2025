@@ -341,7 +341,7 @@ function formatarMin($min) {
             <?php if ($resultado->num_rows > 0): ?>
                 <?php while ($registro = $resultado->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($registro['data']) ?></td>
+                        <td><?= date('d/m/Y', strtotime($registro['data'])) ?></td>
                         <td><?= htmlspecialchars($registro['tipo_ponto']) ?></td>
                         <td><?= htmlspecialchars($registro['hora']) ?></td>
                         <td>
