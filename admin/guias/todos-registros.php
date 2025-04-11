@@ -79,12 +79,35 @@ $resultado = $stmt->get_result();
     h2 {
         color: var(--primary-color);
         font-size: 1.8rem;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         text-align: center;
         background: var(--gradient-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Estilo para mensagem informativa */
+    .info-mensagem {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .info-mensagem i {
+        color: var(--primary-color);
+        font-size: 20px;
+    }
+
+    .info-mensagem p {
+        margin: 0;
+        color: var(--text-color);
+        font-size: 14px;
     }
 
     /* Estilos do formulário de filtro */
@@ -270,6 +293,11 @@ $resultado = $stmt->get_result();
 
 <h2>📁 Registros de Todos os Usuários</h2>
 
+<div class="info-mensagem">
+    <i class="fas fa-info-circle"></i>
+    <p>Observação: Apenas os usuários podem editar seus próprios registros. Os administradores podem apenas visualizar os registros.</p>
+</div>
+
 <div class="container">
     <form method="GET" class="filtro-form">
         <input type="hidden" name="guia" value="todos-registros">
@@ -287,7 +315,6 @@ $resultado = $stmt->get_result();
                 <th>Tipo de Ponto</th>
                 <th>Hora</th>
                 <th>Foto</th>
-                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -304,10 +331,6 @@ $resultado = $stmt->get_result();
                             <?php else: ?>
                                 Sem foto
                             <?php endif; ?>
-                        </td>
-                        <td>
-                            <a href="../../editar-registro.php?id=<?= $r['id'] ?>" class="acao-link">✏️ Editar</a>
-                            <a href="../../excluir-registro.php?id=<?= $r['id'] ?>" class="acao-link" onclick="return confirm('Tem certeza que deseja excluir?')">🗑️ Excluir</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
