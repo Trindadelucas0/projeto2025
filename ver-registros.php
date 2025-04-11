@@ -5,18 +5,34 @@ require 'proteger.php';
 require 'verificar-ativo.php';
 include_once "header.php";
 
+// Logs para verificar a sessão
+error_log("Sessão iniciada: " . (session_status() === PHP_SESSION_ACTIVE ? "Sim" : "Não"));
+error_log("Conteúdo da sessão: " . print_r($_SESSION, true));
+
 $usuario_id = $_SESSION['usuario_id'];
 
-// Buscar registros dos últimos 30 dias do usuário logado normalmente
+// Log do ID do usuário
+error_log("ID do usuário da sessão: " . $usuario_id);
+
+// Buscar registros do usuário logado
 $sql = "SELECT * FROM registro_ponto 
         WHERE usuario_id = ? 
-        AND data >= CURDATE() - INTERVAL 30 DAY 
         ORDER BY data DESC, hora ASC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $resultado = $stmt->get_result();
+
+// Adicionando logs para depuração
+error_log("Usuário ID: " . $usuario_id);
+error_log("SQL Query: " . $sql);
+error_log("Número de registros encontrados: " . $resultado->num_rows);
+if ($resultado->num_rows === 0) {
+    error_log("Nenhum registro encontrado para o usuário");
+} else {
+    error_log("Registros encontrados: " . $resultado->num_rows);
+}
 
 function diffMin($h1, $h2) {
     [$h1h, $h1m] = explode(":", $h1);
@@ -104,6 +120,16 @@ function formatarMin($min) {
             border: 1px solid var(--glass-border);
         }
         
+        /* Estilo para mensagens */
+        .mensagem {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            font-weight: 500;
+        }
 
         th, td {
             padding: 1rem;
@@ -294,6 +320,13 @@ function formatarMin($min) {
 <div class="container">
     <h2>📜 Meus Registros de Ponto</h2>
 
+    <?php if (isset($_SESSION['mensagem'])): ?>
+        <div class="mensagem">
+            <?= $_SESSION['mensagem'] ?>
+        </div>
+        <?php unset($_SESSION['mensagem']); ?>
+    <?php endif; ?>
+
     <table>
         <thead>
             <tr>
@@ -320,7 +353,7 @@ function formatarMin($min) {
                         </td>
                         <td>
                             <a href="editar-registro.php?id=<?= $registro['id'] ?>" class="editar-btn">✏️ Editar</a>
-                            <a href="excluir-registro.php?id=<?= $registro['id'] ?>" class="excluir-btn" onclick="return confirm('Tem certeza que deseja excluir este registro?')">🗑️ Excluir</a>
+                            <a href="excluir-registro.php?id=<?= $registro['id'] ?>" class="excluir-btn">🗑️ Excluir</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>

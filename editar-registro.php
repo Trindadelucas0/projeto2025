@@ -35,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($stmt->execute()) {
         $mensagem = "✅ Registro atualizado com sucesso!";
-        return "ver-registros.php";
+        header("Location: ver-registros.php");
+        exit();
     } else {
         $mensagem = "❌ Erro ao atualizar: " . $conn->error;
     }
@@ -273,29 +274,29 @@ $registro = $stmt->get_result()->fetch_assoc();
             <div class="form-group">
                 <label>Tipo de Ponto:</label>
                 <select name="tipo_ponto" class="form-control" required>
-                    <option <?= $registro['tipo_ponto'] == 'entrada' ? 'selected' : '' ?> value="entrada">Entrada</option>
-                    <option <?= $registro['tipo_ponto'] == 'saida' ? 'selected' : '' ?> value="saida">Saída</option>
-                    <option <?= $registro['tipo_ponto'] == 'almoco' ? 'selected' : '' ?> value="almoco">Saída para Almoço</option>
-                    <option <?= $registro['tipo_ponto'] == 'retorno' ? 'selected' : '' ?> value="retorno">Retorno do Almoço</option>
-                    <option <?= $registro['tipo_ponto'] == 'intervalo_inicio' ? 'selected' : '' ?> value="intervalo_inicio">Início do Intervalo</option>
-                    <option <?= $registro['tipo_ponto'] == 'intervalo_fim' ? 'selected' : '' ?> value="intervalo_fim">Fim do Intervalo</option>
+                    <option value="entrada" <?= $registro['tipo_ponto'] == 'entrada' ? 'selected' : '' ?>>Entrada</option>
+                    <option value="almoco" <?= $registro['tipo_ponto'] == 'almoco' ? 'selected' : '' ?>>Almoço</option>
+                    <option value="retorno" <?= $registro['tipo_ponto'] == 'retorno' ? 'selected' : '' ?>>Retorno</option>
+                    <option value="saida" <?= $registro['tipo_ponto'] == 'saida' ? 'selected' : '' ?>>Saída</option>
+                    <option value="intervalo_inicio" <?= $registro['tipo_ponto'] == 'intervalo_inicio' ? 'selected' : '' ?>>Início do Intervalo</option>
+                    <option value="intervalo_fim" <?= $registro['tipo_ponto'] == 'intervalo_fim' ? 'selected' : '' ?>>Fim do Intervalo</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Hora:</label>
-                <input type="time" name="hora" class="form-control" value="<?= $registro['hora'] ?>" required>
+                <input type="time" name="hora" class="form-control" value="<?= substr($registro['hora'], 0, 5) ?>" required>
             </div>
 
             <?php if ($registro['foto']): ?>
                 <div class="foto-atual">
-                    <h3>Foto Atual:</h3>
+                    <p>Foto atual:</p>
                     <img src="uploads/<?= htmlspecialchars($registro['foto']) ?>" alt="Foto atual">
                 </div>
             <?php endif; ?>
 
             <div class="form-group">
-                <label>Alterar Foto (opcional):</label>
+                <label>Nova Foto (opcional):</label>
                 <input type="file" name="foto" class="form-control" accept="image/*">
             </div>
 
