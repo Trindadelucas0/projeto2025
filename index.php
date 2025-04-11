@@ -16,7 +16,7 @@ while ($t = $res->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Sistema de controle de ponto moderno e seguro. Registre seus horários com fotos, acompanhe seu banco de horas e receba alertas automáticos!">
-    <title>PontoInteligente - Controle de Ponto Moderno</title>
+    <title>Controle de Ponto Inteligente - Controle de Ponto Moderno</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -677,26 +677,18 @@ while ($t = $res->fetch_assoc()) {
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>PontoInteligente</h3>
-                    <p>Solução integrada para gestão de ponto eletrônico, desenvolvida com tecnologia de ponta para
-                        precisão e conformidade regulatória.</p>
-                </div>
-                <div class="footer-section">
                     <h3>Contato</h3>
-                    <p><i class="fas fa-envelope"></i> suporte@pontointeligente.com</p>
+                    <p><i class="fas fa-envelope"></i> lucasrodrigues4@live.com</p>
                     <p><i class="fas fa-phone"></i> (38)9 9810-0827</p>
                 </div>
                 <div class="footer-section">
-                    <h3>Redes Sociais</h3>
-                    <div class="social-links">
-                        <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    </div>
+                    <h3>Controle de Ponto Inteligente</h3>
+                    <p>Solução integrada para gestão de ponto eletrônico, desenvolvida com tecnologia de ponta para
+                        precisão e conformidade regulatória.</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 PontoInteligente - Todos os direitos reservados.</p>
+                <p>&copy; 2024 Controle de Ponto Inteligente - Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>

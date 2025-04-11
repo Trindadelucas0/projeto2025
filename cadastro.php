@@ -50,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cadastre-se no PontoInteligente - Sistema de controle de ponto moderno e seguro">
-    <title>Cadastro - PontoInteligente</title>
+    <meta name="description" content="Cadastre-se no Controle de Ponto Inteligente - Sistema de controle de ponto moderno e seguro">
+    <title>Cadastro - Controle de Ponto Inteligente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -333,7 +333,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <div class="logo-container">
             <div class="logo"></div>
-            <h1>PontoInteligente</h1>
+            <h1>Controle de Ponto Inteligente</h1>
             <p class="subtitle">Faça seu cadastro para acessar seu controle de ponto</p>
         </div>
         <div class="cadastro-container">
