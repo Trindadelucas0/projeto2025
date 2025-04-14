@@ -250,17 +250,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div class="form-group">
-                <label for="tipo-ponto">Tipo de Ponto:</label>
-                <select id="tipo-ponto" name="tipo_ponto" required>
-                    <option value="">Selecione o tipo de ponto</option>
-                    <option value="entrada">Entrada</option>
-                    <option value="saida">Saída</option>
-                    <option value="almoco">Saída para Almoço</option>
-                    <option value="retorno">Retorno do Almoço</option>
-                    <option value="intervalo_inicio">Início do Intervalo</option>
-                    <option value="intervalo_fim">Fim do Intervalo</option>
-                </select>
-            </div> 
+    <label for="tipo-ponto">Tipo de Ponto:</label>
+    <select id="tipo-ponto" name="tipo_ponto" required>
+        <option value="">Selecione o tipo de ponto</option>
+        <option value="entrada">Entrada</option>
+        <option value="saida">Saída</option>
+        <option value="almoco">Saída para Almoço</option>
+        <option value="retorno">Retorno do Almoço</option>
+        <option value="intervalo_inicio">Início do Intervalo</option>
+        <option value="intervalo_fim">Fim do Intervalo</option>
+        <option value="feriado">Feriado</option> <!-- ✅ Nova opção -->
+    </select>
+</div>
+
 
             <div class="form-group">
                 <label for="hora">Horário:</label>

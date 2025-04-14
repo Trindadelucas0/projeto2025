@@ -427,21 +427,27 @@ document.addEventListener("DOMContentLoaded", () => {
         let totalMin = 0;
 
         for (const data in registrosPorData) {
-            const dia = registrosPorData[data];
-            let minutosDia = 0;
+    const dia = registrosPorData[data];
+    let minutosDia = 0;
 
-            if (dia["entrada"] && dia["almoco"]) {
-                minutosDia += calcularDiferenca(dia["entrada"], dia["almoco"]);
-            }
-            if (dia["retorno"] && dia["saida"]) {
-                minutosDia += calcularDiferenca(dia["retorno"], dia["saida"]);
-            }
-            if (dia["intervalo_inicio"] && dia["intervalo_fim"]) {
-                minutosDia -= calcularDiferenca(dia["intervalo_inicio"], dia["intervalo_fim"]);
-            }
-
-            totalMin += minutosDia;
+    if (dia["feriado"]) {
+        // Se for feriado, soma a carga horária diária completa
+        minutosDia = cargaDiaria;
+    } else {
+        if (dia["entrada"] && dia["almoco"]) {
+            minutosDia += calcularDiferenca(dia["entrada"], dia["almoco"]);
         }
+        if (dia["retorno"] && dia["saida"]) {
+            minutosDia += calcularDiferenca(dia["retorno"], dia["saida"]);
+        }
+        if (dia["intervalo_inicio"] && dia["intervalo_fim"]) {
+            minutosDia -= calcularDiferenca(dia["intervalo_inicio"], dia["intervalo_fim"]);
+        }
+    }
+
+    totalMin += minutosDia;
+}
+
 
         const trabalhadas = formatarTempo(totalMin);
         const extras = totalMin > cargaMensal ? formatarTempo(totalMin - cargaMensal) : "00:00";
@@ -467,106 +473,144 @@ document.addEventListener("DOMContentLoaded", () => {
     // PDF
     window.jsPDF = window.jspdf.jsPDF;
 
-    window.gerarPDF = async function() {
-        const pdf = new jsPDF();
-        const hoje = new Date().toLocaleDateString('pt-BR');
-        const porData = {};
-        let primeira = true;
+window.gerarPDF = async function () {
+    const pdf = new jsPDF();
+    const hoje = new Date().toLocaleDateString('pt-BR');
+    const porData = {};
+    let totalMin = 0;
 
-        for (let i = 0; i < linhas.length; i++) {
-            const colunas = linhas[i].querySelectorAll("td");
-            if (colunas.length > 0) {
-                const data = colunas[0].innerText.trim();
-                const tipo = colunas[1].innerText.trim().toLowerCase();
-                const hora = colunas[2].innerText.trim().slice(0, 5);
-                const img = colunas[3].querySelector("img");
-                const imgSrc = img ? img.src : null;
+    // Agrupar os registros por data
+    for (let i = 0; i < linhas.length; i++) {
+        const colunas = linhas[i].querySelectorAll("td");
+        if (colunas.length > 0) {
+            const data = colunas[0].innerText.trim();
+            const tipo = colunas[1].innerText.trim().toLowerCase();
+            const hora = colunas[2].innerText.trim().slice(0, 5);
+            const img = colunas[3].querySelector("img");
+            const imgSrc = img ? img.src : null;
 
-                if (!porData[data]) porData[data] = [];
-                porData[data].push({ tipo, hora, imgSrc });
-
-                if (!primeira) pdf.addPage();
-                primeira = false;
-
-                pdf.setFontSize(16);
-                pdf.text("🧠 Mente Neural - Controle de Ponto", 14, 20);
-
-                pdf.setFontSize(12);
-                pdf.text(`Data do Registro: ${data}`, 14, 32);
-                pdf.text(`Tipo de Ponto: ${capitalize(tipo)}`, 14, 40);
-                pdf.text(`Horário: ${hora}`, 14, 48);
-                pdf.text(`Relatório Gerado em: ${hoje}`, 14, 56);
-
-                if (imgSrc) {
-                    const imgData = await carregarImagem(imgSrc);
-                    if (imgData) {
-                        pdf.addImage(imgData, "PNG", 14, 70, 80, 80);
-                    }
-                }
-            }
+            if (!porData[data]) porData[data] = [];
+            porData[data].push({ tipo, hora, imgSrc });
         }
+    }
 
-        let totalMin = 0;
-        for (const data in porData) {
-            const registros = porData[data];
-            const tipos = {};
-            registros.forEach(ponto => {
-                tipos[ponto.tipo] = ponto.hora;
-            });
+    const [ch, cm] = cargaInput.value.split(":").map(Number);
+    const cargaDiaria = (ch * 60 + cm);
 
-            let minutosDia = 0;
-            if (tipos["entrada"] && tipos["almoco"]) {
-                minutosDia += calcularDiferenca(tipos["entrada"], tipos["almoco"]);
-            }
-            if (tipos["retorno"] && tipos["saida"]) {
-                minutosDia += calcularDiferenca(tipos["retorno"], tipos["saida"]);
-            }
-            if (tipos["intervalo_inicio"] && tipos["intervalo_fim"]) {
-                minutosDia -= calcularDiferenca(tipos["intervalo_inicio"], tipos["intervalo_fim"]);
-            }
+    let primeira = true;
 
-            totalMin += minutosDia;
-        }
+    for (const data in porData) {
+        if (!primeira) pdf.addPage();
+        primeira = false;
 
-        pdf.addPage();
+        const registros = porData[data];
+        const tipos = {};
+        const imagens = [];
+
+        // Cabeçalho
         pdf.setFontSize(16);
-        pdf.text("📊 Total de Horas no Período", 14, 20);
+        pdf.text(`📅 Registro do Dia ${data}`, 14, 20);
+        pdf.setFontSize(10);
+        pdf.text(`Gerado em: ${hoje}`, 14, 28);
+        let y = 40;
 
-        const [ch, cm] = cargaInput.value.split(":").map(Number);
-        const cargaMensal = (ch * 60 + cm) * 30;
-
-        const trabalhadas = formatarTempo(totalMin);
-        const extras = totalMin > cargaMensal ? formatarTempo(totalMin - cargaMensal) : "00:00";
-        const faltantes = totalMin < cargaMensal ? formatarTempo(cargaMensal - totalMin) : "00:00";
-
+        // Lista de pontos
         pdf.setFontSize(12);
-        pdf.text(`Horas Trabalhadas: ${trabalhadas}`, 14, 36);
-        pdf.text(`Horas Extras: ${extras}`, 14, 44);
-        pdf.text(`Horas Faltantes: ${faltantes}`, 14, 52);
-
-        pdf.save("relatorio-ponto-detalhado.pdf");
-    }
-
-    function capitalize(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
-    async function carregarImagem(url) {
-        return new Promise((resolve) => {
-            const img = new Image();
-            img.crossOrigin = "anonymous";
-            img.onload = () => {
-                const canvas = document.createElement("canvas");
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext("2d");
-                ctx.drawImage(img, 0, 0);
-                resolve(canvas.toDataURL("image/png"));
-            };
-            img.onerror = () => resolve(null);
-            img.src = url;
+        registros.forEach(ponto => {
+            tipos[ponto.tipo] = ponto.hora;
+            pdf.text(`🔹 ${capitalize(ponto.tipo)}: ${ponto.hora}`, 14, y);
+            y += 7;
+            if (ponto.imgSrc) imagens.push(ponto.imgSrc);
         });
+
+        // Total do dia
+        let minutosDia = 0;
+        if (tipos["feriado"]) {
+            minutosDia = cargaDiaria;
+        } else {
+            if (tipos["entrada"] && tipos["almoco"])
+                minutosDia += calcularDiferenca(tipos["entrada"], tipos["almoco"]);
+            if (tipos["retorno"] && tipos["saida"])
+                minutosDia += calcularDiferenca(tipos["retorno"], tipos["saida"]);
+            if (tipos["intervalo_inicio"] && tipos["intervalo_fim"])
+                minutosDia -= calcularDiferenca(tipos["intervalo_inicio"], tipos["intervalo_fim"]);
+        }
+
+        totalMin += minutosDia;
+
+        // Espaço antes das imagens
+        y += 8;
+        pdf.setFontSize(12);
+        pdf.text(`⏱️ Total do dia: ${formatarTempo(minutosDia)}`, 14, y);
+        y += 10;
+
+        // Imagens centralizadas abaixo dos registros
+        for (let i = 0; i < imagens.length; i++) {
+            const imgData = await carregarImagem(imagens[i]);
+            if (imgData) {
+                const imgWidth = 90;
+                const imgHeight = 65;
+                const centerX = (210 - imgWidth) / 2;
+                pdf.addImage(imgData, "PNG", centerX, y, imgWidth, imgHeight);
+                y += imgHeight + 10;
+            }
+        }
     }
+
+    // Página de total final
+    pdf.addPage();
+    const diasTotais = Object.keys(porData).length;
+    const cargaMensal = cargaDiaria * diasTotais;
+
+    const trabalhadas = formatarTempo(totalMin);
+    const extras = totalMin > cargaMensal ? formatarTempo(totalMin - cargaMensal) : "00:00";
+    const faltantes = totalMin < cargaMensal ? formatarTempo(cargaMensal - totalMin) : "00:00";
+
+    pdf.setFontSize(16);
+    pdf.text("📊 Resumo Final do Período", 14, 20);
+    pdf.setFontSize(12);
+    pdf.text(`🕒 Horas Trabalhadas: ${trabalhadas}`, 14, 36);
+    pdf.text(`➕ Horas Extras: ${extras}`, 14, 44);
+    pdf.text(`➖ Horas Faltantes: ${faltantes}`, 14, 52);
+
+    pdf.save("relatorio-ponto-organizado.pdf");
+};
+
+// Utilitários
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function calcularDiferenca(h1, h2) {
+    const [h1h, h1m] = h1.split(":").map(Number);
+    const [h2h, h2m] = h2.split(":").map(Number);
+    return (h2h * 60 + h2m) - (h1h * 60 + h1m);
+}
+
+function formatarTempo(minutos) {
+    const h = String(Math.floor(minutos / 60)).padStart(2, '0');
+    const m = String(minutos % 60).padStart(2, '0');
+    return `${h}:${m}`;
+}
+
+async function carregarImagem(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+        };
+        img.onerror = () => resolve(null);
+        img.src = url;
+    });
+}
+
+
 });
 </script>
 </body>

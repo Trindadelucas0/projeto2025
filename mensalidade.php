@@ -271,6 +271,10 @@ include 'verificar-ativo.php'; ?>
         const resultadoPagamento = document.getElementById('resultadoPagamento');
         const botaoPagar = document.querySelector('.btn-payment');
 
+        // Código fictício de Pix (pode ser o código gerado pela sua aplicação real)
+        const codigoPix = '00020126900014BR.GOV.BCB.PIX013669f5f50f-da66-4511-87fd-e49ea09a4c010228SISTEMA DE REGISTRO DE PONTO520400005303986540519.905802BR5925Lucas Rodrigues da Trinda6009SAO PAULO62140510UazvG6UlTm6304A0AC';
+        const linkPix = 'https://nubank.com.br/cobrar/1ftl2x/67f71fb2-de05-41d6-b840-b1c4c0ab6b12';
+
         methodOptions.forEach(option => {
             option.addEventListener('click', function () {
                 methodOptions.forEach(opt => opt.classList.remove('active'));
@@ -288,6 +292,14 @@ include 'verificar-ativo.php'; ?>
                 resultadoPagamento.innerHTML = `
                     <h3 style="color: var(--success-color);">Escaneie o QR Code abaixo</h3>
                     <img src="img/qrcode_exemplo.png" alt="QR Code Pix" style="max-width: 300px; margin-top: 1rem;">
+                    
+                    <p style="margin-top: 1rem; font-weight: bold;">Ou copie o código Pix abaixo:</p>
+                    <textarea readonly style="width: 100%; height: 100px; font-size: 14px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">${codigoPix}</textarea>
+
+                    <p style="margin-top: 1rem;">Ou se preferir, clique no link direto do pagamento:</p>
+                    <a href="${linkPix}" target="_blank" style="color: var(--primary-color); font-weight: bold;">🔗 Acessar link de pagamento Pix</a>
+                    
+                    <p style="font-size: 0.9rem; color: gray; margin-top: 1rem;">Use o método que preferir para realizar o pagamento via Pix.</p>
                 `;
             } else {
                 resultadoPagamento.innerHTML = `
