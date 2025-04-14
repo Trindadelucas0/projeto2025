@@ -479,6 +479,27 @@ window.gerarPDF = async function () {
     const porData = {};
     let totalMin = 0;
 
+    // Configurações de estilo
+    const styles = {
+        header: { fontSize: 16, color: [0, 0, 0] },
+        subheader: { fontSize: 12, color: [80, 80, 80] },
+        normal: { fontSize: 10, color: [0, 0, 0] },
+        highlight: { fontSize: 11, color: [0, 102, 204] }
+    };
+
+    // Função auxiliar para desenhar linha
+    function drawLine(y) {
+        pdf.setDrawColor(200, 200, 200);
+        pdf.line(14, y, 196, y);
+    }
+
+    // Função para adicionar texto com estilo
+    function addText(text, x, y, style) {
+        pdf.setFontSize(style.fontSize);
+        pdf.setTextColor(...style.color);
+        pdf.text(text, x, y);
+    }
+
     // Agrupar os registros por data
     for (let i = 0; i < linhas.length; i++) {
         const colunas = linhas[i].querySelectorAll("td");
@@ -496,32 +517,54 @@ window.gerarPDF = async function () {
 
     const [ch, cm] = cargaInput.value.split(":").map(Number);
     const cargaDiaria = (ch * 60 + cm);
+    const datas = Object.keys(porData);
+    let paginaAtual = 0;
 
-    let primeira = true;
+    for (let i = 0; i < datas.length; i++) {
+        // Nova página para cada registro
+        if (i > 0) {
+            pdf.addPage();
+        }
 
-    for (const data in porData) {
-        if (!primeira) pdf.addPage();
-        primeira = false;
-
+        const data = datas[i];
         const registros = porData[data];
         const tipos = {};
         const imagens = [];
 
-        // Cabeçalho
-        pdf.setFontSize(16);
-        pdf.text(`📅 Registro do Dia ${data}`, 14, 20);
-        pdf.setFontSize(10);
-        pdf.text(`Gerado em: ${hoje}`, 14, 28);
-        let y = 40;
+        // Cabeçalho da página
+        addText("Relatório de Ponto", 14, 20, styles.header);
+        drawLine(22);
 
-        // Lista de pontos
-        pdf.setFontSize(12);
-        registros.forEach(ponto => {
+        let y = 35;
+
+        // Box principal para o registro
+        pdf.setFillColor(250, 250, 250);
+        pdf.setDrawColor(230, 230, 230);
+        pdf.roundedRect(10, y-10, 190, 250, 3, 3, 'FD');
+
+        // Cabeçalho do registro
+        addText(`Registro do Dia ${data}`, 14, y, styles.subheader);
+        y += 8;
+        drawLine(y);
+        y += 10;
+
+        // Lista de pontos em duas colunas
+        let coluna1 = y;
+        let coluna2 = y;
+        
+        registros.forEach((ponto, index) => {
             tipos[ponto.tipo] = ponto.hora;
-            pdf.text(`🔹 ${capitalize(ponto.tipo)}: ${ponto.hora}`, 14, y);
-            y += 7;
+            if (index < registros.length/2) {
+                addText(`${capitalize(ponto.tipo)}: ${ponto.hora}`, 20, coluna1, styles.normal);
+                coluna1 += 8;
+            } else {
+                addText(`${capitalize(ponto.tipo)}: ${ponto.hora}`, 110, coluna2, styles.normal);
+                coluna2 += 8;
+            }
             if (ponto.imgSrc) imagens.push(ponto.imgSrc);
         });
+
+        y = Math.max(coluna1, coluna2) + 5;
 
         // Total do dia
         let minutosDia = 0;
@@ -538,42 +581,63 @@ window.gerarPDF = async function () {
 
         totalMin += minutosDia;
 
-        // Espaço antes das imagens
-        y += 8;
-        pdf.setFontSize(12);
-        pdf.text(`⏱️ Total do dia: ${formatarTempo(minutosDia)}`, 14, y);
-        y += 10;
+        drawLine(y-2);
+        addText(`Total do dia: ${formatarTempo(minutosDia)}`, 14, y+5, styles.highlight);
+        y += 20;
 
-        // Imagens centralizadas abaixo dos registros
-        for (let i = 0; i < imagens.length; i++) {
-            const imgData = await carregarImagem(imagens[i]);
-            if (imgData) {
-                const imgWidth = 90;
-                const imgHeight = 65;
-                const centerX = (210 - imgWidth) / 2;
-                pdf.addImage(imgData, "PNG", centerX, y, imgWidth, imgHeight);
-                y += imgHeight + 10;
+        // Grid de imagens (2x2)
+        if (imagens.length > 0) {
+            const imgWidth = 85;  // Aumentado para melhor visualização
+            const imgHeight = 85; // Mantendo proporção quadrada
+            const spacing = 10;
+            const startX = (190 - (imgWidth * 2 + spacing)) / 2 + 10;
+            
+            // Título da seção de imagens
+            addText("Registros Fotográficos", 14, y, styles.subheader);
+            y += 10;
+
+            // Desenha as imagens em grid 2x2
+            for (let j = 0; j < imagens.length; j++) {
+                const row = Math.floor(j / 2);
+                const col = j % 2;
+                const imgData = await carregarImagem(imagens[j]);
+                
+                if (imgData) {
+                    const x = startX + (imgWidth + spacing) * col;
+                    const currentY = y + (imgHeight + spacing) * row;
+                    
+                    // Box de fundo para cada imagem
+                    pdf.setFillColor(255, 255, 255);
+                    pdf.setDrawColor(240, 240, 240);
+                    pdf.roundedRect(x-2, currentY-2, imgWidth+4, imgHeight+4, 2, 2, 'FD');
+                    
+                    pdf.addImage(imgData, "PNG", x, currentY, imgWidth, imgHeight);
+                }
             }
         }
+
+        paginaAtual++;
     }
 
-    // Página de total final
+    // Página final com resumo
     pdf.addPage();
-    const diasTotais = Object.keys(porData).length;
-    const cargaMensal = cargaDiaria * diasTotais;
-
     const trabalhadas = formatarTempo(totalMin);
-    const extras = totalMin > cargaMensal ? formatarTempo(totalMin - cargaMensal) : "00:00";
-    const faltantes = totalMin < cargaMensal ? formatarTempo(cargaMensal - totalMin) : "00:00";
 
-    pdf.setFontSize(16);
-    pdf.text("📊 Resumo Final do Período", 14, 20);
-    pdf.setFontSize(12);
-    pdf.text(`🕒 Horas Trabalhadas: ${trabalhadas}`, 14, 36);
-    pdf.text(`➕ Horas Extras: ${extras}`, 14, 44);
-    pdf.text(`➖ Horas Faltantes: ${faltantes}`, 14, 52);
+    // Design da página final
+    pdf.setFillColor(240, 240, 240);
+    pdf.roundedRect(10, 10, 190, 80, 3, 3, 'F');
+    
+    addText("Resumo do Período", 14, 30, styles.header);
+    drawLine(32);
+    
+    // Box com o total de horas
+    pdf.setFillColor(255, 255, 255);
+    pdf.roundedRect(20, 45, 170, 35, 3, 3, 'F');
+    
+    addText("Total de Horas Trabalhadas", 65, 65, styles.subheader);
+    addText(trabalhadas, 95, 75, {...styles.highlight, fontSize: 16});
 
-    pdf.save("relatorio-ponto-organizado.pdf");
+    pdf.save("relatorio-ponto.pdf");
 };
 
 // Utilitários
