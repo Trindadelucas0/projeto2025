@@ -650,15 +650,14 @@ while ($t = $res->fetch_assoc()) {
             <div class="grid">
                 <div class="item">
                     <i class="fas fa-bell"></i>
-                    <h3>Notificações Inteligentes</h3>
-                    <p>Receba alertas personalizados sobre horários e relatórios importantes, mantendo você sempre
-                        informado.</p>
-                </div>
+                    <h3>Controle de Horas Inteligente</h3>
+        <p>Registro preciso e automático do seu tempo de trabalho, com visualização clara e organizada dos seus dados.</p>
+    </div>
                 <div class="item">
                     <i class="fas fa-chart-line"></i>
-                    <h3>Dashboard Personalizado</h3>
-                    <p>Acompanhe suas horas trabalhadas em tempo real, com gráficos e análises detalhadas.</p>
-                </div>
+                    <h3>Controle Prático de Horas</h3>
+    <p>Registro fácil e organizado do seu tempo de trabalho, com visualização clara do seu histórico diário/semanal.</p>
+</div>
                 <div class="item">
                     <i class="fas fa-mobile-alt"></i>
                     <h3>Acesso Mobile</h3>
@@ -688,7 +687,7 @@ while ($t = $res->fetch_assoc()) {
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Controle de Ponto Inteligente - Todos os direitos reservados.</p>
+                <p>&copy; 2025 Controle de Ponto Inteligente - Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
