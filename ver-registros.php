@@ -372,8 +372,6 @@ function formatarMin($min) {
 
 <div id="resultado-horas" class="oculto">
     <p>Horas Trabalhadas: <span id="horas-trabalhadas">00:00</span></p>
-    <p>Horas Extras: <span id="horas-extras">00:00</span></p>
-    <p>Horas Faltantes: <span id="horas-faltantes">00:00</span></p>
     <button onclick="gerarPDF()">📄 Gerar PDF</button>
 </div>
 
@@ -450,12 +448,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const trabalhadas = formatarTempo(totalMin);
-        const extras = totalMin > cargaMensal ? formatarTempo(totalMin - cargaMensal) : "00:00";
-        const faltantes = totalMin < cargaMensal ? formatarTempo(cargaMensal - totalMin) : "00:00";
 
         document.getElementById("horas-trabalhadas").textContent = trabalhadas;
-        document.getElementById("horas-extras").textContent = extras;
-        document.getElementById("horas-faltantes").textContent = faltantes;
     }
 
     function calcularDiferenca(h1, h2) {
